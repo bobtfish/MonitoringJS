@@ -1,4 +1,4 @@
-window.HostRow = Backbone.View.extend({
+var HostRow = Backbone.View.extend({
     tagName: "li",
     className: "host-row",
     template: _.template($('#host-template').html()),

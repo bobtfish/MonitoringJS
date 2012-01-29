@@ -1,10 +1,10 @@
-window.AppView = Backbone.View.extend({
+var AppView = Backbone.View.extend({
     // Instead of generating a new element, bind to the existing skeleton of
     // the App already present in the HTML.
     el: $("#todoapp"),
 
     initialize: function() {
-        this.Hosts = new window.CollectionOfHosts;
+        this.Hosts = new CollectionOfHosts;
         this.Hosts.bind('add',   this.addOne, this);
         this.Hosts.bind('reset', this.addAll, this);
         this.Hosts.bind('all',   this.render, this);

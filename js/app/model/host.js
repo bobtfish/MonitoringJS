@@ -1,4 +1,4 @@
-window.Host = Backbone.Model.extend({
+var Host = Backbone.Model.extend({
     initialize: function () {
         delete this.attributes["agentlist"];
         delete this.attributes["extra"];

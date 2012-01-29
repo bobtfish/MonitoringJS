@@ -1,5 +1,5 @@
-window.CollectionOfHosts = Backbone.Collection.extend({
-  model: window.Host,
+var CollectionOfHosts = Backbone.Collection.extend({
+  model: Host,
   initialize: function() {
       this.PuppetClasses = new CollectionOfPuppetClasses;
       this.bind('reset', function () { this.PuppetClasses.sort() }, this);
