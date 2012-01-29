@@ -19,6 +19,9 @@ window.AppView = Backbone.View.extend({
     },
     statsTemplate: _.template($('#stats-template').html()),
     render: function() {
+        if (Hosts.has_selected()) {
+            $('#hostdetails').html("<pre>" + JSON.stringify(Hosts.selected_host.toJSON(), undefined, 2) + "</pre>");
+        }
         $('#hoststats').html(this.statsTemplate({
             total:      Hosts.length,
         }));
