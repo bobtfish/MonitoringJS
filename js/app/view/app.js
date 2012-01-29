@@ -4,10 +4,10 @@ window.AppView = Backbone.View.extend({
     el: $("#todoapp"),
 
     initialize: function() {
-        window.Hosts.bind('add',   this.addOne, this);
-        window.Hosts.bind('reset', this.addAll, this);
-      /*  window.Hosts.bind('all',   this.render, this);*/
-        window.Hosts.fetch();
+        Hosts.bind('add',   this.addOne, this);
+        Hosts.bind('reset', this.addAll, this);
+        Hosts.bind('all',   this.render, this);
+        Hosts.fetch();
     },
     addOne: function(host) {
       var view = new HostRow({model: host});
@@ -16,6 +16,12 @@ window.AppView = Backbone.View.extend({
 
     addAll: function() {
       Hosts.each(this.addOne);
+    },
+    statsTemplate: _.template($('#stats-template').html()),
+    render: function() {
+        $('#hoststats').html(this.statsTemplate({
+            total:      Hosts.length,
+        }));
     },
 });
 
