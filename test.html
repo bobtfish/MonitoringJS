@@ -43,16 +43,16 @@
               <%= class_list %>
         </script>
         <script type="text/template" id="host-detail-template">
-            <h1><%= fqdn %></h1>
+            <h1><%= host.get("fqdn") %></h1>
             <h2>Classes</h2>
-            <ul><% _.each(classes, function(name) { %> <li><%= name %></li> <% }); %></ul>
+            <ul><% _.each(host.get("classes"), function(name) { %> <li><%= name %></li> <% }); %></ul>
             <h2>Facts</h2>
             <table>
                 <tr><th>Name</th><th>Value</th></tr>
-                <% _.each(facts, function(value, name) { %><tr><td><%= name %></td><td><%= value %></td></tr> <% }); %>
+                <% _.each(host.get("facts"), function(value, name) { %><tr><td><%= name %></td><td><%= value %></td></tr> <% }); %>
             </table>
             <h2>Lastseen</h2>
-            <%= lastseen_string %>
+            <%= host.get("lastseen_string") %>
         </script>
         <script type="text/template" id="class-list-item-template">
             <%= id %>: <%= count %>

@@ -7,6 +7,7 @@ window.AppView = Backbone.View.extend({
         Hosts.bind('add',   this.addOne, this);
         Hosts.bind('reset', this.addAll, this);
         Hosts.bind('all',   this.render, this);
+        Hosts.bind('host_selected', this.render_one_host, this);
         Hosts.fetch();
     },
     addOne: function(host) {
@@ -20,10 +21,10 @@ window.AppView = Backbone.View.extend({
     statsTemplate: _.template($('#stats-template').html()),
     hostTemplate: _.template($('#host-detail-template').html()),
     classListTemplate: _.template($('#class-list-item-template').html()),
+    render_one_host: function() {
+        $('#hostdetails').html(this.hostTemplate({host: Hosts.selected_host}))
+    },
     render: function() {
-        if (Hosts.has_selected()) {
-            $('#hostdetails').html(this.hostTemplate(Hosts.selected_host.toJSON()));
-        }
         $('#hoststats').html(this.statsTemplate({
             total:      Hosts.length,
             total_classes: Hosts.PuppetClasses.length,
