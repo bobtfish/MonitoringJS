@@ -4,10 +4,7 @@ window.AppView = Backbone.View.extend({
     // the App already present in the HTML.
     el: $("#todoapp"),
 
-    template: _.template($('#item-template').html()),
-
     initialize: function() {
-	alert("MOO");
         window.Hosts.bind('add',   this.addOne, this);
         window.Hosts.bind('reset', this.addAll, this);
       /*  window.Hosts.bind('all',   this.render, this);*/
@@ -20,7 +17,7 @@ window.AppView = Backbone.View.extend({
     },
     addOne: function(host) {
       var view = new  HostRow({model: host});
-      this.$("#todo-list").append(view.render().el);
+      this.$("#host-list").append(view.render().el);
     },
 
     // Add all items in the **Todos** collection at once.

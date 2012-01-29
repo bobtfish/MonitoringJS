@@ -2,16 +2,17 @@ window.HostRow = Backbone.View.extend({
 
   tagName: "li",
 
-  className: "document-row",
+  className: "host-row",
   
-  template: _.template($('#item-template').html()),
+  template: _.template($('#host-template').html()),
 
   events: {
   },
 
   render: function() {
-      $(this.el).html(this.template(this.model.toJSON()));
-      //$(this.el).html("<pre>" + JSON.stringify(this.model.toJSON(), undefined, 2) + "</pre>");
+      var data = this.model.toJSON();
+      data.pretty_printed_json = "<pre>" + JSON.stringify(this.model.toJSON(), undefined, 2) + "</pre>";
+      $(this.el).html(this.template(data));
       return this;
   }
 

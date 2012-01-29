@@ -1,7 +1,19 @@
 var CollectionOfHosts = Backbone.Collection.extend({
   model: window.Host,
   parse: function(response) {
-      return response.rows;
+      var rows = response.rows;
+      $.each(rows, function(index, value) {
+          var id = value["_id"]["$oid"];
+          value["id"] = id;
+          delete value["_id"];
+          delete value["agentlist"];
+          delete value["classes"];
+          delete value["extra"];
+          $.each(["ps", "kernel", "title", "facterversion", "hardwareisa", "rubysitedir", "rubyversion",
+                "module_name", "selinux", "type", "caller_module_name", "never", "files", "servername", "id"],
+            function(i, name) { delete value["facts"][name] });
+      });
+      return rows;
   },
   url: 'file:///Users/t0m/test-backbone/nodes.json'
 });
