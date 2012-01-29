@@ -12,5 +12,14 @@ var Host = Backbone.Model.extend({
         var PuppetClasses = this.attributes["_PuppetClasses"];
         delete this.attributes["_PuppetClasses"];
         $.each(this.attributes["classes"], function (i, name) { PuppetClasses.add_unless_exists(name) });
+    },
+    hasRaid: function () {
+        return this.get("facts").controllertype.length > 0;
+    },
+    raidController: function () {
+        return this.get("facts").controllertype;
+    }
+    graphUri: function(name) {
+        return "/cgi-bin/munin-cgi-graph/" + this.get("facts").domain + "/" + his.get("facts").fqdn + "/" + name + ".png";
     }
 });
