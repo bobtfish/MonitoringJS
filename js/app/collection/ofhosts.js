@@ -15,6 +15,9 @@ var CollectionOfHosts = Backbone.Collection.extend({
       });
       return rows;
   },
+  comparator: function(ob) {
+      return ob.get("facts")["fqdn"].split('.').reverse().join('.');
+  },
   url: 'file:///Users/t0m/test-backbone/nodes.json'
 });
 window.Hosts = new CollectionOfHosts; 
