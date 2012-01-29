@@ -4,11 +4,12 @@ window.AppView = Backbone.View.extend({
     el: $("#todoapp"),
 
     initialize: function() {
-        Hosts.bind('add',   this.addOne, this);
-        Hosts.bind('reset', this.addAll, this);
-        Hosts.bind('all',   this.render, this);
-        Hosts.bind('host_selected', this.render_one_host, this);
-        Hosts.fetch();
+        this.Hosts = new window.CollectionOfHosts;
+        this.Hosts.bind('add',   this.addOne, this);
+        this.Hosts.bind('reset', this.addAll, this);
+        this.Hosts.bind('all',   this.render, this);
+        this.Hosts.bind('host_selected', this.render_one_host, this);
+        this.Hosts.fetch();
     },
     addOne: function(host) {
       var view = new HostRow({model: host});
@@ -16,19 +17,19 @@ window.AppView = Backbone.View.extend({
     },
 
     addAll: function() {
-        Hosts.each(this.addOne);
+        this.Hosts.each(this.addOne);
     },
     statsTemplate: _.template($('#stats-template').html()),
     hostTemplate: _.template($('#host-detail-template').html()),
     classListTemplate: _.template($('#class-list-item-template').html()),
     render_one_host: function() {
-        $('#hostdetails').html(this.hostTemplate({host: Hosts.selected_host}))
+        $('#hostdetails').html(this.hostTemplate({host: this.Hosts.selected_host}))
     },
     render: function() {
         $('#hoststats').html(this.statsTemplate({
-            total:      Hosts.length,
-            total_classes: Hosts.PuppetClasses.length,
-            class_list: Hosts.PuppetClasses.map(function (ob) { return ob.id + " (" + ob.count + ")"}).join(", ")
+            total:      this.Hosts.length,
+            total_classes: this.Hosts.PuppetClasses.length,
+            class_list: this.Hosts.PuppetClasses.map(function (ob) { return ob.id + " (" + ob.count + ")"}).join(", ")
         }));
     },
 });

@@ -1,4 +1,4 @@
-var CollectionOfHosts = Backbone.Collection.extend({
+window.CollectionOfHosts = Backbone.Collection.extend({
   model: window.Host,
   initialize: function() {
       this.PuppetClasses = new CollectionOfPuppetClasses;
@@ -29,4 +29,3 @@ var CollectionOfHosts = Backbone.Collection.extend({
   },
   url: 'file:///Users/t0m/test-backbone/nodes.json'
 });
-window.Hosts = new CollectionOfHosts;
