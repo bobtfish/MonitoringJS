@@ -1,5 +1,5 @@
 var CollectionOfHosts = Backbone.Collection.extend({
-  model: Host,
+  model: window.Host,
   initialize: function() {
       this.PuppetClasses = new CollectionOfPuppetClasses;
       this.bind('reset', function () { this.PuppetClasses.sort() }, this);
@@ -15,6 +15,15 @@ var CollectionOfHosts = Backbone.Collection.extend({
           rows.push(new Host(value));
       });
       return rows;
+  },
+  clone_and_filter: function(iterator) {
+      var newob = new CollectionOfHosts();
+      newob.reset(this.filter(iterator));
+      return newob;
+  },
+  clone_and_filter_by_class: function(classname) {
+      var filter = function(ob) { var x = _.any(ob.get("classes"), function(val){ return val == classname }); return x; };
+      return this.clone_and_filter( filter );
   },
   comparator: function(ob) {
       return ob.get("fqdn_sortable");

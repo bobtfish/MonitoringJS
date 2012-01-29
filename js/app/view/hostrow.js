@@ -10,6 +10,6 @@ var HostRow = Backbone.View.extend({
         return this;
     },
     show_detail: function() {
-        App.Hosts.selected(this.model);
+        App.HostsModel.selected(this.model);
     }
 });
