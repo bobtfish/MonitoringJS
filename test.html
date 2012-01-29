@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Systems</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/js/json2.js"></script>
+    <script src="/js/jquery-1.7.1.min.js"></script>
+    <script src="/js/underscore-1.1.6.js"></script>
+    <script src="/js/backbone-min.js"></script>
+    <script src="/js/app/model/host.js"></script>
+    <script src="/js/app/collection/ofhosts.js"></script>
+    <script src="/js/app/view/hostrow.js"></script>
+    </head>
+    <body>
+    <div class="container-fluid">
+    <div class="sidebar">
+    
+    </div>
+    <div class="content">
+        Content
+	<div id="todoapp">
+	</div>
+	<script type="text/template" id="item-template">
+      	  <div class="row">
+	     <div class="span6"><%= facts.ipaddress %></div>
+          </div>
+          </script>
+    </div>
+    </div>
+        <script src="/js/app/view/app.js"></script>
+    <script src="/js/app.js"></script>
+    </body>
+</html>
+
