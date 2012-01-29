@@ -15,22 +15,26 @@ window.AppView = Backbone.View.extend({
     },
 
     addAll: function() {
-      Hosts.each(this.addOne);
+        Hosts.each(this.addOne);
+        PuppetClasses.trimCount(1);
+        PuppetClasses.trimCount(Hosts.length);
+        PuppetClasses.sort();
     },
     statsTemplate: _.template($('#stats-template').html()),
     hostTemplate: _.template($('#host-detail-template').html()),
+    classListTemplate: _.template($('#class-list-item-template').html()),
     render: function() {
         if (Hosts.has_selected()) {
             $('#hostdetails').html(this.hostTemplate(Hosts.selected_host.toJSON()));
         }
         $('#hoststats').html(this.statsTemplate({
             total:      Hosts.length,
+            total_classes: PuppetClasses.length,
+            class_list: PuppetClasses.map(function (ob) { return ob.id + " (" + ob.count + ")"}).join(", ")
         }));
     },
 });
 
 $(function(){
-  // Finally, we kick things off by creating the **App**.
   window.App = new AppView;
-
 });

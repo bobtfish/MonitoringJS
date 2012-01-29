@@ -14,6 +14,7 @@ var CollectionOfHosts = Backbone.Collection.extend({
             function(i, name) { delete value["facts"][name] });
           var lastseen = new Date(1000*value["lastseen"]);
           value["lastseen_string"] = lastseen.toString();
+          $.each(value["classes"], function (i, name) { window.PuppetClasses.add_unless_exists(name) });
       });
       return rows;
   },
