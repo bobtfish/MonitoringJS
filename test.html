@@ -11,6 +11,10 @@
         <![endif]-->
 
         <link href="css/bootstrap.min.css" rel="stylesheet">
+        <style type="text/css">
+            .media-grid a.puppetclass { margin: 0 0 2px 1px; padding: 4px; }
+            .puppetclasses { padding-left: 30px }
+        </style>
         <script src="js/json2.js"></script>
         <script src="js/jquery-1.7.1.min.js"></script>
         <script src="js/bootstrap-modal.js"></script>
@@ -45,7 +49,7 @@
         <script type="text/template" id="host-detail-template">
             <h1><%= host.get("fqdn") %></h1>
             <h2>Classes</h2>
-            <ul><% _.each(host.get("classes"), function(name) { %> <li><%= name %></li> <% }); %></ul>
+            <ul class="media-grid puppetclasses"><% _.each(host.get("classes").sort(), function(name) { %> <li><a class="puppetclass" href="#"><%= name %></a></li> <% }); %></ul>
             <h2>Facts</h2>
             <table>
                 <tr><th>Name</th><th>Value</th></tr>
