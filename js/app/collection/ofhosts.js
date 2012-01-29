@@ -3,7 +3,7 @@ var CollectionOfHosts = Backbone.Collection.extend({
   parse: function(response) {
       return response.rows;
   },
-  url: '/puppet/nodes/'
+  url: 'file:///Users/t0m/test-backbone/nodes.json'
 });
 window.Hosts = new CollectionOfHosts; 
 
