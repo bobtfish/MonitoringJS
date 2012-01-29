@@ -12,6 +12,8 @@ var CollectionOfHosts = Backbone.Collection.extend({
           $.each(["ps", "kernel", "title", "facterversion", "hardwareisa", "rubysitedir", "rubyversion", "lsbrelease",
                 "module_name", "selinux", "type", "caller_module_name", "never", "files", "servername", "id", "puppetversion"],
             function(i, name) { delete value["facts"][name] });
+          var lastseen = new Date(1000*value["lastseen"]);
+          value["lastseen_string"] = lastseen.toString();
       });
       return rows;
   },
