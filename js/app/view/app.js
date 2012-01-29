@@ -25,12 +25,26 @@ var AppView = Backbone.View.extend({
     render_one_host: function() {
         $('#hostdetails').html(this.hostTemplate({host: this.HostsModel.selected_host}))
     },
+    interesting_classes: [
+        "databaseserver_mysql",
+        "kitten_varnish",
+        "hudson_build_slave",
+        "mogile_nginx",
+        "cisupport",
+        "mediaapi",
+        "jobserver",
+        "role_exportserver",
+        "nagios_host"
+    ],
     render: function() {
+        var Hosts = this.HostsModel;
         $('#hoststats').html(this.statsTemplate({
-            total:      this.HostsModel.length,
-            total_dbs:  this.DBs.length,
-            total_classes: this.HostsModel.PuppetClasses.length,
-            class_list: this.HostsModel.PuppetClasses.map(function (ob) { return ob.id + " (" + ob.count + ")"}).join(", ")
+            total:      Hosts.length,
+            total_classes: Hosts.PuppetClasses.length,
+            class_list: _.map(this.interesting_classes, function (name) {
+                var col = Hosts.clone_and_filter_by_class(name);
+                return name + " (" + col.length + ")";
+            }).join(", ")
         }));
     },
 });
