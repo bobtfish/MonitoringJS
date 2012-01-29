@@ -16,9 +16,6 @@ window.AppView = Backbone.View.extend({
 
     addAll: function() {
         Hosts.each(this.addOne);
-        PuppetClasses.trimCount(1);
-        PuppetClasses.trimCount(Hosts.length);
-        PuppetClasses.sort();
     },
     statsTemplate: _.template($('#stats-template').html()),
     hostTemplate: _.template($('#host-detail-template').html()),
@@ -29,8 +26,8 @@ window.AppView = Backbone.View.extend({
         }
         $('#hoststats').html(this.statsTemplate({
             total:      Hosts.length,
-            total_classes: PuppetClasses.length,
-            class_list: PuppetClasses.map(function (ob) { return ob.id + " (" + ob.count + ")"}).join(", ")
+            total_classes: Hosts.PuppetClasses.length,
+            class_list: Hosts.PuppetClasses.map(function (ob) { return ob.id + " (" + ob.count + ")"}).join(", ")
         }));
     },
 });

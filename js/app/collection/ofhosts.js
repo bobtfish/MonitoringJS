@@ -1,6 +1,11 @@
 var CollectionOfHosts = Backbone.Collection.extend({
   model: window.Host,
+  initialize: function() {
+      this.PuppetClasses = new CollectionOfPuppetClasses;
+      this.bind('reset', function () { this.PuppetClasses.sort() }, this);
+  },
   parse: function(response) {
+      var collection = this;
       var rows = response.rows;
       $.each(rows, function(index, value) { /* This logic should be in the model class we inflate */
           var id = value["_id"]["$oid"];
@@ -14,7 +19,7 @@ var CollectionOfHosts = Backbone.Collection.extend({
             function(i, name) { delete value["facts"][name] });
           var lastseen = new Date(1000*value["lastseen"]);
           value["lastseen_string"] = lastseen.toString();
-          $.each(value["classes"], function (i, name) { window.PuppetClasses.add_unless_exists(name) });
+          $.each(value["classes"], function (i, name) { collection.PuppetClasses.add_unless_exists(name) });
       });
       return rows;
   },
