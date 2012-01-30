@@ -36,5 +36,5 @@ var CollectionOfHosts = Backbone.Collection.extend({
       this.trigger("host_selected", host);
       return host;
   },
-  url: 'file:///Users/t0m/test-backbone/nodes.json'
+  url: '/puppet/nodes/'
 });

@@ -18,8 +18,8 @@ var Host = Backbone.Model.extend({
     },
     raidController: function () {
         return this.get("facts").controllertype;
-    }
-    graphUri: function(name) {
-        return "/cgi-bin/munin-cgi-graph/" + this.get("facts").domain + "/" + his.get("facts").fqdn + "/" + name + ".png";
+    },
+    graphUrl: function(name) {
+        return "/cgi-bin/munin-cgi-graph/" + this.get("facts").domain + "/" + this.get("facts").fqdn + "/" + name + ".png";
     }
 });

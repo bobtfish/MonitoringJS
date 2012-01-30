@@ -67,7 +67,12 @@
                         <span class="span2"><%= host.get("facts")["kernelrelease"] %></span>
                         <span class="span3"><%= host.get("facts")["macaddress"] %></span>
                     </div>
-                    <img src="<%= host.graphUrl("cpu-day") %>" />
+                    <img src="<%= host.graphUrl("cpu-day") %>" width="497" height="371" />
+                    <img src="<%= host.graphUrl("load-day") %>" />
+                    <img src="<%= host.graphUrl("memory-day") %>" />
+                    <img src="<%= host.graphUrl("swap-day") %>" />
+                    <img src="<%= host.graphUrl("df-week") %>" />
+                    <img src="<%= host.graphUrl("diskstats_iops-day") %>" />
                 </div>
                 <% if (host.hasRaid()) { %><div id="raid">
                         <div class="row">
