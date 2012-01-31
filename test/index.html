@@ -2,23 +2,25 @@
 <html>
 <head>
   <title>Test Suite</title>
-  <link rel="stylesheet" href="vendor/qunit.css" type="text/css" media="screen" />
+  <!-- Dependencies -->
   <script type="text/javascript" src="../js/json2.js"></script>
   <script type="text/javascript" src="../js/jquery-1.7.1.min.js"></script>
-  <script type="text/javascript" src="vendor/qunit.js"></script>
-
-  <script type="text/javascript">
-    QUnit.config.reorder = false;
-  </script>
   <script type="text/javascript" src="../js/underscore-1.1.6.js"></script>
   <script type="text/javascript" src="../js/backbone.js"></script>
 
-  <script type="text/javascript" src="../js/app/model/puppetclass.js"></script>
+  <!-- Test framework -->
+  <link rel="stylesheet" href="vendor/qunit.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="vendor/qunit.js"></script>
+
+  <!-- Application models -->
+  <script src="../js/app/model/puppetclass.js"></script>
   <script src="../js/app/collection/puppetclasses.js"></script>
   <script src="../js/app/model/host.js"></script>
   <script src="../js/app/collection/ofhosts.js"></script>
 
+  <!-- Tests -->
   <script type="text/javascript" src="model.js"></script>
+  <script type="text/javascript" src="collections.js"></script>
 
 </head>
 <body>

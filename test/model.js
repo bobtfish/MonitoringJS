@@ -19,4 +19,16 @@ test("hasRaid empty string", function() {
   });
   ok( !host.hasRaid(), 'Host does not have raid given empty string');
 });
+
+module("Puppetclass Model");
+
+test("Construction and Simple use", function() {
+  var ob = new PuppetClass({
+      id: "foo"
+  });
+  ok( ob, "Constructed class" );
+  equal( ob.incCount(), 1, "ob.incCount() returns 1");
+  equal( ob.get("count"), 1, "Count attribute is 1");
+  
+});
   
