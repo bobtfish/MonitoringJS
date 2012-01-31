@@ -6,9 +6,7 @@ var CollectionOfPuppetClasses = Backbone.Collection.extend({
           already.incCount();
       }
       else {
-          var thing = new PuppetClass({ id: name });
-          thing.count = 1;
-          this.add(thing);
+          this.add({ id: name, count: 1 });
       }
   },
   comparator: function(ob) {
