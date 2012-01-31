@@ -36,11 +36,23 @@ test("PuppetClasses", function() {
   var puppetclasses = new CollectionOfPuppetClasses;
   var coll = new CollectionOfHosts([
       {_PuppetClasses: puppetclasses, agentlist: "foo", extra: "foo", classes: ["foo", "bar"], facts: {fqdn: "foo.example.com", controllertype: "Someraid"}, lastseen: 1328044394},
-      {_PuppetClasses: puppetclasses, agentlist: "foo", extra: "foo", classes: ["foo", "baz"], facts: {fqdn: "foo2.example.com", controllertype: "Someraid"}, lastseen: 1328044394}
+      {_PuppetClasses: puppetclasses, agentlist: "foo", extra: "foo", classes: ["foo", "baz"], facts: {fqdn: "zzz.example.aaa", controllertype: "Someraid"}, lastseen: 1328044394}
   ]);
   equals(coll.length, 2, "Two entries");
   ok(coll.PuppetClasses, "Has PuppetClasses collection");
   equals(puppetclasses.length, 3, "Three classes");
+  var models = coll.toArray();
+  equals( models.length, 2, 'Length 2');
+  equals( models[0].get("facts").fqdn, "zzz.example.aaa" );
+  equals( models[1].get("facts").fqdn, "foo.example.com" );
+
+  var two = coll.clone_and_filter_by_class("foo");
+  equals(two.length, 2);
+
+  var oneA = coll.clone_and_filter_by_class("bar");
+  var oneB = coll.clone_and_filter_by_class("baz");
+  equals(oneA.length, 1);
+  equals(oneB.length, 1);
 });
 
 asyncTest("Load test data", function() {
@@ -54,3 +66,15 @@ asyncTest("Load test data", function() {
 });
 stop();
 
+asyncTest("Selected host", function() {
+  var coll = new CollectionOfHosts;
+  ok( !coll.has_selected(), "No host selected" );
+  coll.bind("host_selected", function (host) {
+      start();
+      ok(1, "Was selected");
+      equals(host, "foo.example.com"); // FIXME!
+  });
+  coll.selected("foo.example.com");
+  ok( coll.has_selected(), "Has a selected" );
+});
+stop();
