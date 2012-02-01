@@ -17,8 +17,7 @@
         </style>
         <script src="js/json2.js"></script>
         <script src="js/jquery-1.7.1.min.js"></script>
-        <script src="js/bootstrap-modal.js"></script>
-        <script src="js/bootstrap-tabs.js"></script>
+        <script src="js/bootstrap.js"></script>
         <script src="js/underscore-1.1.6.js"></script>
         <script src="js/backbone.js"></script>
         <script src="js/app/model/puppetclass.js"></script>
@@ -30,7 +29,7 @@
     </head>
     <body>
         <div class="container-fluid">
-            <div class="sidebar">
+            <div class="span2">
                 <ul id="host-list">
             	</ul>
             	<script type="text/template" id="host-template">
@@ -39,7 +38,7 @@
                     </a>
                 </script>
             </div>
-            <div id="content" class="content">
+            <div id="content" class="span10">
             	<div id="hoststats" class="pull-right"></div>
             	<ul id="classeslist" class="pull-right"></ul>
             	<div id="hostdetails"></div>
@@ -52,14 +51,14 @@
         </script>
         <script type="text/template" id="host-detail-template">
             <h1><%= host.get("fqdn") %> <% if (host.get("facts")["machine_notes"]) { %><sub>(<%= host.get("facts")["machine_notes"] %>)</sub><% } %></h1>
-            <ul class="tabs">
+            <ul class="nav nav-tabs tabs">
                 <li class="active"><a href="#basics">Basics</a></li>
                 <% if (host.hasRaid()) { %><li><a href="#raid">RAID</s></li><% } %>
                 <% if (host.get("nagios_results")) { %><li><a href="#nagios">Nagios</s></li><% } %>
                 <li><a href="#classes">Classes</a></li>
                 <li><a href="#facts">Facts</a></li>
             </ul>
-            <div class="pill-content">
+            <div class="tab-content">
                 <div class="active" id="basics">
                     <div class="row">
                         <span class="span2"><strong>Hostname</strong></span>
@@ -87,13 +86,11 @@
                     </div>
                 <% } %>
                 <% if (host.hasRaid()) { %><div id="raid">
-                        <div class="row">
                             <span class="span2"><strong>Controller</strong></span>
                             <span class="span2"><%= host.raidController() %></strong></span>
-                        </div>
                 </div><% } %>
                 <div id="classes">
-                    <ul class="media-grid puppetclasses"><%
+                    <ul class="puppetclasses"><%
                         _.each(host.get("classes").sort(), function(name) {
                             %> <li><a class="puppetclass" href="#"><%= name %></a></li> <% });
                     %></ul>

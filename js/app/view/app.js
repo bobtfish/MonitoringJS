@@ -28,7 +28,7 @@ var AppView = Backbone.View.extend({
     classListTemplate: _.template($('#class-list-item-template').html()),
     render_one_host: function() {
         $('#hostdetails').html(this.hostTemplate({host: this.HostsModel.selected_host}));
-        $('.tabs').tabs();
+        $('.tabs').tab('show');
     },
     interesting_classes: [
         "databaseserver_mysql",
