@@ -50,6 +50,7 @@
         </script>
         <script type="text/template" id="host-detail-template">
             <h1><%= host.get("fqdn") %></h1>
+            <div class="pull-right"><%= host.get("machine_notes") %></div>
             <ul class="tabs">
                 <li class="active"><a href="#basics">Basics</a></li>
                 <% if (host.hasRaid()) { %><li><a href="#raid">RAID</s></li><% } %>
