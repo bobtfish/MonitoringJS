@@ -49,8 +49,7 @@
               Interesting classes: <%= class_list %>
         </script>
         <script type="text/template" id="host-detail-template">
-            <h1><%= host.get("fqdn") %></h1>
-            <div class="pull-right"><%= host.get("machine_notes") %></div>
+            <h1><%= host.get("fqdn") %> <% if (host.get("facts")["machine_notes"]) { %><sub>(<%= host.get("facts")["machine_notes"] %>)</sub><% } %></h1>
             <ul class="tabs">
                 <li class="active"><a href="#basics">Basics</a></li>
                 <% if (host.hasRaid()) { %><li><a href="#raid">RAID</s></li><% } %>
