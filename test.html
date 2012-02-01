@@ -23,6 +23,8 @@
         <script src="js/backbone.js"></script>
         <script src="js/app/model/puppetclass.js"></script>
         <script src="js/app/collection/puppetclasses.js"></script>
+        <script src="js/app/model/nagiosserviceresult.js"></script>
+        <script src="js/app/collection/nagiosresults.js"></script>
         <script src="js/app/model/host.js"></script>
         <script src="js/app/collection/ofhosts.js"></script>
     </head>
@@ -53,6 +55,7 @@
             <ul class="tabs">
                 <li class="active"><a href="#basics">Basics</a></li>
                 <% if (host.hasRaid()) { %><li><a href="#raid">RAID</s></li><% } %>
+                <% if (host.get("nagios_results")) { %><li><a href="#nagios">Nagios</s></li><% } %>
                 <li><a href="#classes">Classes</a></li>
                 <li><a href="#facts">Facts</a></li>
             </ul>
@@ -74,6 +77,15 @@
                     <img src="<%= host.graphUrl("df-week") %>" />
                     <img src="<%= host.graphUrl("diskstats_iops-day") %>" />
                 </div>
+                <% if (host.get("nagios_results")) { %><div id="nagios">
+                    <% host.get("nagios_results").each(function (service) { %>
+                        <div class="alert alert-<% if (service.isOk()) { %>success<% } else { %>error<% } %>">
+                            <h3><%= service.get("name") %></h3>
+                            <pre><%= JSON.stringify(service) %></pre>
+                        </div>
+                        <% }); %>
+                    </div>
+                <% } %>
                 <% if (host.hasRaid()) { %><div id="raid">
                         <div class="row">
                             <span class="span2"><strong>Controller</strong></span>

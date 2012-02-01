@@ -13,6 +13,17 @@ var Host = Backbone.Model.extend({
         delete this.attributes["_PuppetClasses"];
         $.each(this.attributes["classes"], function (i, name) { PuppetClasses.add_unless_exists(name) });
     },
+    parse_nagios: function(data) {
+        var host = this;
+        var rows = [];//FIXME - This logic should be in the collection!
+        $.each(data.services, function(servicename, value) {
+              value.name = servicename;
+              value.id = host.get("fqdn") + "_" + servicename;
+              rows.push(value); 
+        });
+        var collectionOfNagiosResults = new CollectionOfNagiosResults(rows);
+        this.set({'nagios_results': collectionOfNagiosResults});
+    },
     hasRaid: function () {
         return this.get("facts").controllertype.length > 0;
     },

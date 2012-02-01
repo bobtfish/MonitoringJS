@@ -16,8 +16,12 @@ var AppView = Backbone.View.extend({
       this.$("#host-list").append(view.render().el);
     },
     addAll: function() {
-        this.HostsModel.each(this.addOne);
-        this.DBs = this.HostsModel.clone_and_filter_by_class("databaseserver_mysql");
+        var hosts_collection = this.HostsModel;
+        hosts_collection.each(this.addOne);
+        this.DBs = hosts_collection.clone_and_filter_by_class("databaseserver_mysql");
+        $.get('/nagios-api/state', function(data) {
+            hosts_collection.parse_nagios(data);
+        });
     },
     statsTemplate: _.template($('#stats-template').html()),
     hostTemplate: _.template($('#host-detail-template').html()),

@@ -16,6 +16,15 @@ var CollectionOfHosts = Backbone.Collection.extend({
       });
       return rows;
   },
+  parse_nagios: function(response) {
+      var collection = this;
+      $.each(response.content, function(hostname, value) { 
+          var thisHost = collection.find(function (host) { return hostname == host.get("facts").hostname });
+          if (thisHost) {
+              thisHost.parse_nagios(value);
+          }
+      });
+  },
   clone_and_filter: function(iterator) {
       var newob = new CollectionOfHosts();
       newob.reset(this.filter(iterator));
