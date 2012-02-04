@@ -78,3 +78,45 @@ asyncTest("Selected host", function() {
   ok( coll.has_selected(), "Has a selected" );
 });
 stop();
+
+module("Nagios service results collection");
+test("Load test data", function() {
+      var ob_ok = new NagiosServiceResult({
+        "plugin_output": "Time difference is less than 10 seconds: -1",
+        "notifications_enabled": "1",
+        "downtimes": {},
+        "scheduled_downtime_depth": "0",
+        "problem_has_been_acknowledged": "0",
+        "comments": {},
+        "current_state": "0",
+        "active_checks_enabled": "1",
+        "last_hard_state": "0",
+        "last_check": "1327923057",
+        "last_notification": "0",
+        "name": "TIMESYNC",
+        "id": "camel.cissme.com_TIMESYNC"
+      });
+
+      var ob_fail = new NagiosServiceResult({
+        "plugin_output": "Critical: number of incomplete replications is 70",
+        "notifications_enabled": "1",
+        "downtimes": {},
+        "scheduled_downtime_depth": "0",
+        "problem_has_been_acknowledged": "1",
+        "comments": {},
+        "current_state": "2",
+        "active_checks_enabled": "1",
+        "last_hard_state": "2",
+        "last_check": "1327920163",
+        "last_notification": "0",
+        "name": "REPL_INCOMPLETE",
+        "id": "camel.cissme.com_REPL_INCOMPLETE"
+      });
+  var coll = new CollectionOfNagiosResults([ob_ok]);
+  ok(coll.isOk(), 'ok collection is');
+  coll = new CollectionOfNagiosResults([ob_fail]); 
+  ok(!coll.isOk(), 'fail collection is');
+  coll = new CollectionOfNagiosResults([ob_ok, ob_fail]); 
+    ok(!coll.isOk(), 'mixed collection is not ok');
+});
+

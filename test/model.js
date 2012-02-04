@@ -31,4 +31,45 @@ test("Construction and Simple use", function() {
   equal( ob.get("count"), 1, "Count attribute is 1");
   
 });
-  
+
+module("NagiosDerviceResult Model");
+
+test("Construction and Simple use - ok", function() {
+  var ob = new NagiosServiceResult({
+    "plugin_output": "Time difference is less than 10 seconds: -1",
+    "notifications_enabled": "1",
+    "downtimes": {},
+    "scheduled_downtime_depth": "0",
+    "problem_has_been_acknowledged": "0",
+    "comments": {},
+    "current_state": "0",
+    "active_checks_enabled": "1",
+    "last_hard_state": "0",
+    "last_check": "1327923057",
+    "last_notification": "0",
+    "name": "TIMESYNC",
+    "id": "camel.cissme.com_TIMESYNC"
+  });
+  ok( ob, "Constructed class" );
+  ok( ob.isOk(), "ob.isOk() true");
+});
+
+test("Construction and Simple use - not ok", function() {
+  var ob = new NagiosServiceResult({
+    "plugin_output": "Critical: number of incomplete replications is 70",
+    "notifications_enabled": "1",
+    "downtimes": {},
+    "scheduled_downtime_depth": "0",
+    "problem_has_been_acknowledged": "1",
+    "comments": {},
+    "current_state": "2",
+    "active_checks_enabled": "1",
+    "last_hard_state": "2",
+    "last_check": "1327920163",
+    "last_notification": "0",
+    "name": "REPL_INCOMPLETE",
+    "id": "camel.cissme.com_REPL_INCOMPLETE"
+  });
+  ok( ob, "Constructed class" );
+  ok( !ob.isOk(), "ob.isOk() false");
+});
