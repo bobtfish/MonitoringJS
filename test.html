@@ -51,55 +51,68 @@
         </script>
         <script type="text/template" id="host-detail-template">
             <h1><%= host.get("fqdn") %> <% if (host.get("facts")["machine_notes"]) { %><sub>(<%= host.get("facts")["machine_notes"] %>)</sub><% } %></h1>
-            <ul class="nav nav-tabs tabs">
-                <li class="active"><a href="#basics">Basics</a></li>
-                <% if (host.hasRaid()) { %><li><a href="#raid">RAID</s></li><% } %>
-                <% if (host.get("nagios_results")) { %><li><a href="#nagios">Nagios</s></li><% } %>
-                <li><a href="#classes">Classes</a></li>
-                <li><a href="#facts">Facts</a></li>
-            </ul>
-            <div class="tab-content">
-                <div class="active" id="basics">
-                    <div class="row">
-                        <span class="span2"><strong>Hostname</strong></span>
-                        <span class="span3"><%= host.get("facts")["fqdn"] %></span>
-                        <span class="span2"><strong>IP</strong></span>
-                        <span class="span2"><%= host.get("facts")["ipaddress"] %></span>
-                        <span class="span2"><%= host.get("facts")["architecture"] %></span>
-                        <span class="span2"><%= host.get("facts")["kernelrelease"] %></span>
-                        <span class="span3"><%= host.get("facts")["macaddress"] %></span>
-                    </div>
-                    <img src="<%= host.graphUrl("cpu-day") %>" width="497" height="371" />
-                    <img src="<%= host.graphUrl("load-day") %>" />
-                    <img src="<%= host.graphUrl("memory-day") %>" />
-                    <img src="<%= host.graphUrl("swap-day") %>" />
-                    <img src="<%= host.graphUrl("df-week") %>" />
-                    <img src="<%= host.graphUrl("diskstats_iops-day") %>" />
-                </div>
-                <% if (host.get("nagios_results")) { %><div id="nagios">
-                    <% host.get("nagios_results").each(function (service) { %>
-                        <div class="alert alert-<% if (service.isOk()) { %>success<% } else { %>error<% } %>">
-                            <h3><%= service.get("name") %></h3>
-                            <pre><%= JSON.stringify(service) %></pre>
+            <div class="tabbable">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#basics" data-toggle="tab">Basics</a></li>
+                    <% if (host.hasRaid()) { %><li><a href="#raid" data-toggle="tab">RAID</a></li><% } %>
+                    <% if (host.get("nagios_results")) { %><li><a href="#nagios" data-toggle="tab">Nagios</a></li><% } %>
+                    <li><a href="#classes" data-toggle="tab">Classes</a></li>
+                    <li><a href="#facts" data-toggle="tab">Facts</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="active tab-pane" id="basics">
+                        <div class="row">
+                            <span class="span2"><strong>Hostname</strong></span>
+                            <span class="span3"><%= host.get("facts")["fqdn"] %></span>
+                            <span class="span2"><strong>IP</strong></span>
+                            <span class="span2"><%= host.get("facts")["ipaddress"] %></span>
+                            <span class="span2"><%= host.get("facts")["architecture"] %></span>
+                            <span class="span2"><%= host.get("facts")["kernelrelease"] %></span>
+                            <span class="span3"><%= host.get("facts")["macaddress"] %></span>
                         </div>
-                        <% }); %>
+                        <img src="<%= host.graphUrl("cpu-day") %>" width="497" height="371" />
+                        <img src="<%= host.graphUrl("load-day") %>" />
+                        <img src="<%= host.graphUrl("memory-day") %>" />
+                        <img src="<%= host.graphUrl("swap-day") %>" />
+                        <img src="<%= host.graphUrl("df-week") %>" />
+                        <img src="<%= host.graphUrl("diskstats_iops-day") %>" />
                     </div>
-                <% } %>
-                <% if (host.hasRaid()) { %><div id="raid">
-                            <span class="span2"><strong>Controller</strong></span>
-                            <span class="span2"><%= host.raidController() %></strong></span>
-                </div><% } %>
-                <div id="classes">
-                    <ul class="puppetclasses"><%
-                        _.each(host.get("classes").sort(), function(name) {
-                            %> <li><a class="puppetclass" href="#"><%= name %></a></li> <% });
-                    %></ul>
-                </div>
-                <div id="facts">
-                    <table>
-                        <tr><th>Name</th><th>Value</th></tr>
-                        <% _.each(host.get("facts"), function(value, name) { %><tr><td><%= name %></td><td><%= value %></td></tr> <% }); %>
-                    </table>
+                    <% if (host.get("nagios_results")) { %>
+                        <div class="tab-pane" id="nagios">
+                            <div class="tabbable tabs-left">
+                                <ul class="nav nav-tabs">
+                                    <% host.get("nagios_results").each(function (service) { %>
+                                        <li class="alert alert-<% if (service.isOk()) { %>success<% } else { %>error<% } %>">
+                                            <a href="#nagios_<%= service.get("name") %>" data-toggle="tab"><%= service.get("name") %></a>
+                                        </li>
+                                    <% }); %>
+                                </ul>
+                                <div class="tab-content">
+                                    <% host.get("nagios_results").each(function (service) { %>
+                                        <div class="tab-pane" id="nagios_<%= service.get("name") %>"><div style="padding: 20px;" class="alert-<% if (service.isOk()) { %>success<% } else { %>error<% } %>">
+                                            <pre><%= JSON.stringify(service, undefined, 2) %></pre>
+                                        </div></div>
+                                    <% }); %>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                    <% if (host.hasRaid()) { %><div class="tab-pane" id="raid">
+                                <span class="span2"><strong>Controller</strong></span>
+                                <span class="span2"><%= host.raidController() %></strong></span>
+                    </div><% } %>
+                    <div class="tab-pane" id="classes">
+                        <ul class="puppetclasses"><%
+                            _.each(host.get("classes").sort(), function(name) {
+                                %> <li><a class="puppetclass" href="#"><%= name %></a></li> <% });
+                        %></ul>
+                    </div>
+                    <div class="tab-pane" id="facts">
+                        <table>
+                            <tr><th>Name</th><th>Value</th></tr>
+                            <% _.each(host.get("facts"), function(value, name) { %><tr><td><%= name %></td><td><%= value %></td></tr> <% }); %>
+                        </table>
+                    </div>
                 </div>
             </div>
                 
