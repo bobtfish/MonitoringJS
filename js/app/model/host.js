@@ -25,8 +25,8 @@ var Host = Backbone.Model.extend({
         this.set({'nagios_results': collectionOfNagiosResults});
     },
     hasPuppetClass: function (name) {
-        return _.any(this.get("classes"), function () { this == name });
-    }
+        return _.any(this.get("classes"), function (test_name) { return test_name == name });
+    },
     hasRaid: function () {
         return this.get("facts").controllertype.length > 0;
     },
