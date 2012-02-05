@@ -32,5 +32,12 @@ var Host = Backbone.Model.extend({
     },
     graphUrl: function(name) {
         return "/cgi-bin/munin-cgi-graph/" + this.get("facts").domain + "/" + this.get("facts").fqdn + "/" + name + ".png";
+    },
+    isOk: function() {
+        var res = this.get('nagios_results');
+        if (!res) {
+            return false;
+        }
+        return res.isOk();
     }
 });

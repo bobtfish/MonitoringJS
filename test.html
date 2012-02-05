@@ -33,7 +33,7 @@
                 <ul id="host-list">
             	</ul>
             	<script type="text/template" id="host-template">
-                    <a href="#" class="host-detail">
+                    <a href="#" class="alert-<% if (isOk) { %>success<% } else { %>error<% } %> host-detail">
             	        <%= facts.fqdn %>
                     </a>
                 </script>
@@ -82,7 +82,7 @@
                             <div class="tabbable tabs-left">
                                 <ul class="nav nav-tabs">
                                     <% host.get("nagios_results").each(function (service) { %>
-                                        <li class="alert alert-<% if (service.isOk()) { %>success<% } else { %>error<% } %>">
+                                        <li class="alert-<% if (service.isOk()) { %>success<% } else { %>error<% } %>">
                                             <a href="#nagios_<%= service.get("name") %>" data-toggle="tab"><%= service.get("name") %></a>
                                         </li>
                                     <% }); %>

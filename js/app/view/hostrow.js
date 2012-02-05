@@ -6,7 +6,9 @@ var HostRow = Backbone.View.extend({
         "click a.host-detail"   : "show_detail",
     },
     render: function() {
-        $(this.el).html(this.template(this.model.toJSON()));
+        var data = this.model.toJSON();
+        data.isOk = this.model.isOk();
+        $(this.el).html(this.template(data));
         return this;
     },
     show_detail: function() {
