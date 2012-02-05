@@ -58,10 +58,23 @@ test("PuppetClasses", function() {
 asyncTest("Load test data", function() {
   var coll = new CollectionOfHosts;
   coll.bind("reset", function() {
-      start();
       ok(1, "Was reset");
-      equals(coll.length, 74, "74 hosts");
-  })
+      $.get('/nagios-api/state', function(data) {
+          ok(data, "Got nagios state data");
+          coll.parse_nagios(data);
+          start();
+          equals(coll.length, 74, "74 hosts");
+          var omni = coll.get("omni.state51.co.uk");
+          ok(omni, 'Found host omni');
+          ok(omni.isOk(), 'Host omni is ok');
+          var camel = coll.get("camel.cissme.com");
+          ok(camel, "Found host camel");
+          ok(!camel.isOk(), 'Host camel is not ok');
+          var moggy26 = coll.get("moggy26.cissme.com");
+          ok(moggy26, 'Found host moggy26');
+          ok(moggy26.isOk(), 'Host moggy26 is ok');
+      });
+  });
   coll.fetch();
 });
 stop();

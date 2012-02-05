@@ -1,5 +1,5 @@
 var CollectionOfHosts = Backbone.Collection.extend({
-  model: window.Host,
+  model: Host,
   initialize: function() {
       this.PuppetClasses = new CollectionOfPuppetClasses;
       this.bind('reset', function () { this.PuppetClasses.sort() }, this);
@@ -9,8 +9,8 @@ var CollectionOfHosts = Backbone.Collection.extend({
       var rows = [];
       $.each(response.rows, function(index, value) { /* This logic should be in the model class we inflate */
           var id = value["_id"]["$oid"];
-          value["id"] = id;
-          delete value["_id"];
+          value["_id"] = id;
+          value["id"] = value["facts"]["fqdn"];
           value["_PuppetClasses"] = collection.PuppetClasses;
           rows.push(new Host(value));
       });

@@ -18,11 +18,11 @@ var AppView = Backbone.View.extend({
     addAll: function() {
         var appview = this;
         var hosts_collection = this.HostsModel;
-        this.DBs = hosts_collection.clone_and_filter_by_class("databaseserver_mysql");
         $.get('/nagios-api/state', function(data) {
             hosts_collection.parse_nagios(data);
             hosts_collection.each(appview.addOne);
         });
+        this.DBs = hosts_collection.clone_and_filter_by_class("databaseserver_mysql");
     },
     statsTemplate: _.template($('#stats-template').html()),
     hostTemplate: _.template($('#host-detail-template').html()),
