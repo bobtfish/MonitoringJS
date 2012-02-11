@@ -22,7 +22,7 @@ var Host = Backbone.Model.extend({
               rows.push(value); 
         });
         var collectionOfNagiosResults = new CollectionOfNagiosResults(rows);
-        this.set({'nagios_results': collectionOfNagiosResults});
+        this.set({'nagios_results': collectionOfNagiosResults}, {silent: true});
     },
     hasPuppetClass: function (name) {
         return _.any(this.get("classes"), function (test_name) { return test_name == name });
@@ -40,10 +40,18 @@ var Host = Backbone.Model.extend({
         var res = this.get('nagios_results');
         if (!res) {
             if (this.hasPuppetClass("nagios_client::do_not_monitor")) {
-                return true;
+                return -1; // Not monitored
             }
-            return false;
+            return -2; // Do data
         }
-        return res.isOk();
+        if (res.isOk()) {
+            return "1";
+        }
+        else {
+            return "0";
+        }
+    },
+    isOkcompartor: function() {
+        return this.isOk() + 2;
     }
 });

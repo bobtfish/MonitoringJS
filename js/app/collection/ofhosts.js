@@ -2,7 +2,9 @@ var CollectionOfHosts = Backbone.Collection.extend({
   model: Host,
   initialize: function() {
       this.PuppetClasses = new CollectionOfPuppetClasses;
-      this.bind('reset', function () { this.PuppetClasses.sort() }, this);
+      this.bind('reset', function () {
+          this.PuppetClasses.sort()
+      }, this);
   },
   parse: function(response) {
       var collection = this;
@@ -24,6 +26,7 @@ var CollectionOfHosts = Backbone.Collection.extend({
               thisHost.parse_nagios(value);
           }
       });
+      collection.sort();
   },
   clone_and_filter: function(iterator) {
       var newob = new CollectionOfHosts();
@@ -35,7 +38,7 @@ var CollectionOfHosts = Backbone.Collection.extend({
       return this.clone_and_filter( filter );
   },
   comparator: function(ob) {
-      return ob.get("fqdn_sortable");
+      return ob.isOkcompartor() + ob.get("fqdn_sortable");
   },
   has_selected: function() {
       if (this.selected_host) { return true; } else { return false; }

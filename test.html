@@ -29,11 +29,12 @@
     </head>
     <body>
         <div class="container-fluid">
+            <div class="row-fluid">
             <div class="span2">
-                <ul id="host-list">
+                <ul id="host-list" class="nav nav-list">
             	</ul>
             	<script type="text/template" id="host-template">
-                    <a href="#" class="alert-<% if (isOk) { %>success<% } else { %>error<% } %> host-detail">
+                    <a href="#" class="alert-<% if (isOk >= 0 ) { if (isOk == 1) { %>success<% } else { %>error<% }} %> host-detail">
             	        <%= facts.fqdn %>
                     </a>
                 </script>
@@ -42,6 +43,7 @@
             	<div id="hoststats" class="pull-right"></div>
             	<ul id="classeslist" class="pull-right"></ul>
             	<div id="hostdetails"></div>
+            </div>
             </div>
         </div>
         <script type="text/template" id="stats-template">
