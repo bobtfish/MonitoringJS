@@ -92,7 +92,7 @@
                                 <div class="tab-content">
                                     <% host.get("nagios_results").each(function (service) { %>
                                         <div class="tab-pane" id="nagios_<%= service.get("name") %>">
-                                            <div style="padding: 20px;" class="alert-<% if (service.isOk()) { %>success<% } else { %>error<% } %>">
+                                            <div style="padding: 20px;">
                                                 <h3><strong><%= service.get("plugin_output") %></strong></h3>
                                                 <div>
                                                     <div class="span2"><strong>Acknowledged</strong></div>
