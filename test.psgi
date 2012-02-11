@@ -10,6 +10,7 @@ use Plack::Builder;
 builder {
     mount "/favicon.ico" => Plack::App::File->new(file => "$Bin/favicon.ico");
     mount "/puppet/nodes/" => Plack::App::File->new(file => "$Bin/testdata/nodes.json");
+    mount "/puppet/nagios_host_groups/" => Plack::App::File->new(file => "$Bin/testdata/nagios_host_groups.json");
     mount "/nagios-api/state" => Plack::App::File->new(file => "$Bin/testdata/nagios-api-state.json");
     mount "/" => Plack::App::File->new(file => "$Bin/index.html");
     mount "/js" => Plack::App::File->new(root => "$Bin/js");

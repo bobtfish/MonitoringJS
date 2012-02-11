@@ -5,10 +5,13 @@ var AppView = Backbone.View.extend({
 
     initialize: function() {
         this.hostsCollection = new CollectionOfHosts;
+        this.nagiosHostGroupsCollection = new CollectionOfNagiosHostGroups;
+        this.nagiosHostGroupListView = new NagiosHostGroupListView({"hostGroupCollection": this.nagiosHostGroupsCollection});
         this.hostsListView = new HostListView({"hostsCollection": this.hostsCollection})
         this.hostsCollection.bind('reset', this.addAll, this);
         this.hostsCollection.bind('all',   this.render, this);
         this.hostsCollection.fetch();
+        this.nagiosHostGroupsCollection.fetch();
     },
     addAll: function() {
         var appview = this;

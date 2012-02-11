@@ -14,13 +14,13 @@ var CollectionOfHosts = MyCollection.extend({
           value["_id"] = id;
           value["id"] = value["facts"]["fqdn"];
           value["_PuppetClasses"] = collection.PuppetClasses;
-          rows.push(new Host(value));
+          rows.push(value);
       });
       return rows;
   },
   parse_nagios: function(response) {
       var collection = this;
-      $.each(response.content, function(hostname, value) { 
+      $.each(response.content, function(hostname, value) {
           var thisHost = collection.find(function (host) { return hostname == host.get("facts").hostname });
           if (thisHost) {
               thisHost.parse_nagios(value);

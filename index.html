@@ -42,8 +42,11 @@
                 </script>
             </div>
             <div id="content" class="span10">
-            	<div id="hoststats" class="pull-right"></div>
-            	<ul id="classeslist" class="pull-right"></ul>
+                <div class="row">
+                <ul id="nagios_hostgroups" class="nav nav-list span2"></ul>
+            	<div id="hoststats" class="pull-right span3"></div>
+            	<ul id="classeslist" class="pull-right span3"></ul>
+        	    </div>
             	<div id="hostdetails"></div>
             </div>
             </div>
@@ -140,6 +143,11 @@
             <h2>Lastseen</h2>
             <%= host.get("lastseen_string") %>
         </script>
+        <script type="text/template" id="nagioshostgroup-item-template">
+            <a href="#" class="<% if (isOk == 0) { %>alert-error<% } %> nagioshostgroup-detail">
+    	        <i class="icon-<%= iconClass %>"></i><%= id %>
+            </a>
+        </script>
         <script type="text/template" id="class-list-item-template">
             <%= id %>: <%= count %>
         </script>
@@ -149,12 +157,16 @@
         <script src="js/underscore-1.1.6.js"></script>
         <script src="js/backbone.js"></script>
         <script src="js/app/collection.js"></script>
+        <script src="js/app/model/nagioshostgroup.js"></script>
+        <script src="js/app/collection/nagioshostgroups.js"></script>
         <script src="js/app/model/puppetclass.js"></script>
         <script src="js/app/collection/puppetclasses.js"></script>
         <script src="js/app/model/nagiosserviceresult.js"></script>
         <script src="js/app/collection/nagiosresults.js"></script>
         <script src="js/app/model/host.js"></script>
         <script src="js/app/collection/ofhosts.js"></script>
+        <script src="js/app/view/nagioshostgroup.js"></script>
+        <script src="js/app/view/nagioshostgrouplist.js"></script>
         <script src="js/app/view/hostrow.js"></script>
         <script src="js/app/view/hostlist.js"></script>
         <script src="js/app/view/app.js"></script>
