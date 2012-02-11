@@ -34,7 +34,7 @@
                 <ul id="host-list" class="nav nav-list">
             	</ul>
             	<script type="text/template" id="host-template">
-                    <a href="#" class="alert-<% if (isOk >= 0 ) { if (isOk == 1) { %>success<% } else { %>error<% }} %> host-detail">
+                    <a href="#" class="<% if (isOk == 0) { %>alert-error<% } %> host-detail">
             	        <i class="icon-<%= iconClass %>"></i><%= facts.fqdn %>
                     </a>
                 </script>
@@ -91,9 +91,26 @@
                                 </ul>
                                 <div class="tab-content">
                                     <% host.get("nagios_results").each(function (service) { %>
-                                        <div class="tab-pane" id="nagios_<%= service.get("name") %>"><div style="padding: 20px;" class="alert-<% if (service.isOk()) { %>success<% } else { %>error<% } %>">
-                                            <pre><%= JSON.stringify(service, undefined, 2) %></pre>
-                                        </div></div>
+                                        <div class="tab-pane" id="nagios_<%= service.get("name") %>">
+                                            <div style="padding: 20px;" class="alert-<% if (service.isOk()) { %>success<% } else { %>error<% } %>">
+                                                <h3><strong><%= service.get("plugin_output") %></strong></h3>
+                                                <div>
+                                                    <div class="span2"><strong>Acknowledged</strong></div>
+                                                    <div class="span3"><% if (service.get("problem_has_been_acknowledged") == 0) { %>No<% } else { %>Yes<% } %></div>
+                                                </div>
+                                                <br />
+                                                <div>
+                                                    <div class="span2"><strong>Failed At</strong></div>
+                                                    <div class="span3"><%= service.get("last_notification").toGMTString() %></div>
+                                                </div>
+                                                <br />
+                                                <div>
+                                                    <div class="span2"><strong>Comments</strong></div>
+                                                    <div class="span3"><%= JSON.stringify(service.get("comments"), undefined, 2) %></div>
+                                                </div><br />
+                                                <pre style="margin-left: 100px; margin-top: 20px;"><%= JSON.stringify(service, undefined, 2) %></pre>
+                                            </div>
+                                        </div>
                                     <% }); %>
                                 </div>
                             </div>
