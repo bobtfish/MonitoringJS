@@ -14,6 +14,7 @@ builder {
     mount "/" => Plack::App::File->new(file => "$Bin/test.html");
     mount "/js" => Plack::App::File->new(root => "$Bin/js");
     mount "/css" => Plack::App::File->new(root => "$Bin/css");
+    mount "/img" => Plack::App::File->new(root => "$Bin/img");
     mount "/test" => Plack::App::File->new(file => "$Bin/test/index.html");
     mount "/test/vendor/qunit.js" => Plack::App::File->new(file => "$Bin/test/vendor/qunit.js");
     mount "/test/vendor/qunit.css" => Plack::App::File->new(file => "$Bin/test/vendor/qunit.css");
