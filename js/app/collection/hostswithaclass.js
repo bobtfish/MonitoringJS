@@ -1,3 +1,3 @@
-var CollectionOfHostsWithAPuppetClass = Backbone.Collection.extend({
+var CollectionOfHostsWithAPuppetClass = MyCollection.extend({
   model: PuppetClass,
 });

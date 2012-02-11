@@ -17,6 +17,7 @@ var HostRowView = Backbone.View.extend({
         return this;
     },
     show_detail: function() {
-        App.HostsModel.selected(this.model);
+        var id = this.model.get("id");
+        App.render_one_host(id);        
     }
 });

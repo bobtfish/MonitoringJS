@@ -15,17 +15,6 @@
             .media-grid a.puppetclass { margin: 0 0 2px 1px; padding: 4px; }
             .puppetclasses { padding-left: 30px }
         </style>
-        <script src="js/json2.js"></script>
-        <script src="js/jquery-1.7.1.min.js"></script>
-        <script src="js/bootstrap.js"></script>
-        <script src="js/underscore-1.1.6.js"></script>
-        <script src="js/backbone.js"></script>
-        <script src="js/app/model/puppetclass.js"></script>
-        <script src="js/app/collection/puppetclasses.js"></script>
-        <script src="js/app/model/nagiosserviceresult.js"></script>
-        <script src="js/app/collection/nagiosresults.js"></script>
-        <script src="js/app/model/host.js"></script>
-        <script src="js/app/collection/ofhosts.js"></script>
     </head>
     <body>
         <div class="navbar">
@@ -147,14 +136,27 @@
                     </div>
                 </div>
             </div>
-                
+
             <h2>Lastseen</h2>
             <%= host.get("lastseen_string") %>
         </script>
         <script type="text/template" id="class-list-item-template">
             <%= id %>: <%= count %>
         </script>
-        <script src="js/app/view/hostrow.js"></script>    
+        <script src="js/json2.js"></script>
+        <script src="js/jquery-1.7.1.min.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/underscore-1.1.6.js"></script>
+        <script src="js/backbone.js"></script>
+        <script src="js/app/collection.js"></script>
+        <script src="js/app/model/puppetclass.js"></script>
+        <script src="js/app/collection/puppetclasses.js"></script>
+        <script src="js/app/model/nagiosserviceresult.js"></script>
+        <script src="js/app/collection/nagiosresults.js"></script>
+        <script src="js/app/model/host.js"></script>
+        <script src="js/app/collection/ofhosts.js"></script>
+        <script src="js/app/view/hostrow.js"></script>
+        <script src="js/app/view/hostlist.js"></script>
         <script src="js/app/view/app.js"></script>
     </body>
 </html>

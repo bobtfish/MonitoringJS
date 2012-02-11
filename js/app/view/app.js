@@ -4,35 +4,27 @@ var AppView = Backbone.View.extend({
     el: $("#todoapp"),
 
     initialize: function() {
-        this.HostsModel = new CollectionOfHosts;
-        this.HostsModel.bind('add',   this.addOne, this);
-        this.HostsModel.bind('reset', this.addAll, this);
-        this.HostsModel.bind('all',   this.render, this);
-        this.HostsModel.bind('host_selected', this.render_one_host, this);
-        this.HostsModel.fetch();
-    },
-    addOne: function(host) {
-      var view = new HostRowView({model: host});
-      this.$("#host-list").append(view.render().el);
+        this.hostsCollection = new CollectionOfHosts;
+        this.hostsListView = new HostListView({"hostsCollection": this.hostsCollection})
+        this.hostsCollection.bind('reset', this.addAll, this);
+        this.hostsCollection.bind('all',   this.render, this);
+        this.hostsCollection.fetch();
     },
     addAll: function() {
         var appview = this;
-        var hosts_collection = this.HostsModel;
-        hosts_collection.each(appview.addOne);
+        var hosts_collection = this.hostsCollection;
         if (!appview.haveRendered) {
             $.get('/nagios-api/state', function(data) {
               hosts_collection.parse_nagios(data);
-              $("#host-list").empty();
-              appview.addAll();
             });
         }
         appview.haveRendered = 1;
     },
     statsTemplate: _.template($('#stats-template').html()),
-    hostTemplate: _.template($('#host-detail-template').html()),
     classListTemplate: _.template($('#class-list-item-template').html()),
-    render_one_host: function() {
-        $('#hostdetails').html(this.hostTemplate({host: this.HostsModel.selected_host}));
+    hostTemplate: _.template($('#host-detail-template').html()),
+    render_one_host: function(id) {
+        $('#hostdetails').html(this.hostTemplate({host: this.hostsCollection.get(id)}));
         $('.tabs').tab('show');
     },
     interesting_classes: [
@@ -47,7 +39,7 @@ var AppView = Backbone.View.extend({
         "nagios_host"
     ],
     render: function() {
-        var Hosts = this.HostsModel;
+        var Hosts = this.hostsCollection;
         $('#hoststats').html(this.statsTemplate({
             total:      Hosts.length,
             total_classes: Hosts.PuppetClasses.length,

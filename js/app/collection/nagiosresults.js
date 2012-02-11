@@ -7,4 +7,3 @@ var CollectionOfNagiosResults = Backbone.Collection.extend({
       return ob.isOk() + ob.get("name");
   }
 });
-
