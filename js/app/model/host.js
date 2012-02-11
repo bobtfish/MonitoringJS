@@ -53,5 +53,21 @@ var Host = Backbone.Model.extend({
     },
     isOkcompartor: function() {
         return this.isOk() + 2;
+    },
+    iconClass : function() {
+        var ok = this.isOk();
+        if (ok == 1) {
+            return "ok";
+        }
+        if (ok == 0) {
+            return "remove";
+        }
+        if (ok == -2) {
+            return "question-sign";
+        }
+        if (ok == -1) {
+            return "ban-circle";
+        }
+        alert("Unknown " + ok);
     }
 });

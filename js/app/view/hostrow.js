@@ -12,6 +12,7 @@ var HostRowView = Backbone.View.extend({
     render: function() {
         var data = this.model.toJSON();
         data.isOk = this.model.isOk();
+        data.iconClass = this.model.iconClass();
         $(this.el).html(this.template(data));
         return this;
     },
