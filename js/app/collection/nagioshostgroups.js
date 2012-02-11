@@ -15,5 +15,8 @@ var CollectionOfNagiosHostGroups = Backbone.Collection.extend({
         $.each(by_group, function(group_name, hosts) { rows.push({id: group_name, "hosts": hosts}) });
         return rows;
     },
-    url: '/puppet/nagios_host_groups/'
+    url: '/puppet/nagios_host_groups/',
+    comparator: function(ob) {
+        return ob.isOkcompartor() + ob.get("id");
+    },
 });

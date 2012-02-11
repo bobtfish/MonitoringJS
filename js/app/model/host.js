@@ -36,10 +36,16 @@ var Host = Backbone.Model.extend({
     graphUrl: function(name) {
         return "/cgi-bin/munin-cgi-graph/" + this.get("facts").domain + "/" + this.get("facts").fqdn + "/" + name + ".png";
     },
+    doNotMonitor: function() {
+        if (this.hasPuppetClass("nagios_client::do_not_monitor")) {
+            return true; // Not monitored
+        }
+        return false;
+    },
     isOk: function() {
         var res = this.get('nagios_results');
         if (!res) {
-            if (this.hasPuppetClass("nagios_client::do_not_monitor")) {
+            if (this.doNotMonitor()) {
                 return -1; // Not monitored
             }
             return -2; // Do data

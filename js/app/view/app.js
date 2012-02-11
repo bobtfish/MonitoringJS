@@ -4,14 +4,22 @@ var AppView = Backbone.View.extend({
     el: $("#todoapp"),
 
     initialize: function() {
-        this.hostsCollection = new CollectionOfHosts;
-        this.nagiosHostGroupsCollection = new CollectionOfNagiosHostGroups;
-        this.nagiosHostGroupListView = new NagiosHostGroupListView({"hostGroupCollection": this.nagiosHostGroupsCollection});
-        this.hostsListView = new HostListView({"hostsCollection": this.hostsCollection})
-        this.hostsCollection.bind('reset', this.addAll, this);
-        this.hostsCollection.bind('all',   this.render, this);
-        this.hostsCollection.fetch();
-        this.nagiosHostGroupsCollection.fetch();
+        var hostsCollection = new CollectionOfHosts;
+        this.hostsCollection = hostsCollection;
+        var nagiosHostGroupsCollection = new CollectionOfNagiosHostGroups;
+        this.NagiosHostGroupsCollection = nagiosHostGroupsCollection;
+        var nagiosHostGroupListView = new NagiosHostGroupListView({
+            hostGroupCollection: nagiosHostGroupsCollection,
+            hostsCollection: this.hostsCollection
+        });
+        this.nagiosHostGroupListView = nagiosHostGroupListView;
+        var hostsListView = new HostListView({"hostsCollection": this.hostsCollection});
+        this.hostsListView = hostsListView;
+        hostsCollection.bind('reset', this.addAll, this);
+        hostsCollection.bind('reset', function () { nagiosHostGroupsCollection.sort() }, this);
+        hostsCollection.bind('all',   this.render, this);
+        hostsCollection.fetch();
+        nagiosHostGroupsCollection.fetch();
     },
     addAll: function() {
         var appview = this;
