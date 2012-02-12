@@ -1,6 +1,8 @@
-packlists
-fatlib/
-fatpacker.trace
+maint/packlists
+maint/fatlib/
+maint/fatpacker.trace
 munin/
 collectd/
+maint/fatpacked_deps.pl
+maint/server
 

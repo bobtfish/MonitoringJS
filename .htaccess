@@ -2,15 +2,15 @@
 order deny,allow
 deny from all
 </Files>
-<Files test.psgi>
+<Files ~ "\.git.*">
 order deny,allow
 deny from all
 </Files>
-<Files ~ "fat.*">
+<Files ~ "maint.*">
 order deny,allow
 deny from all
 </Files>
-<Files Makefile>
+<Files server>
 order deny,allow
 deny from all
 </Files>
@@ -18,12 +18,3 @@ deny from all
 order deny,allow
 deny from all
 </Files>
-<Files packlists>
-order deny,allow
-deny from all
-</Files>
-<Files ~ "\.git.*">
-order deny,allow
-deny from all
-</Files>
-
