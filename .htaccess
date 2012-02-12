@@ -1,0 +1,29 @@
+<Files .htaccess>
+order deny,allow
+deny from all
+</Files>
+<Files test.psgi>
+order deny,allow
+deny from all
+</Files>
+<Files ~ "fat.*">
+order deny,allow
+deny from all
+</Files>
+<Files Makefile>
+order deny,allow
+deny from all
+</Files>
+<Files ~ "testdata.*">
+order deny,allow
+deny from all
+</Files>
+<Files packlists>
+order deny,allow
+deny from all
+</Files>
+<Files ~ "\.git.*">
+order deny,allow
+deny from all
+</Files>
+

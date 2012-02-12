@@ -1,3 +1,6 @@
+packlists
+fatlib/
+fatpacker.trace
 munin/
 collectd/
 
