@@ -32,6 +32,7 @@ use constant ROOT =>
 # Find the newest js or CSS file's mtime
 my $youngest = 0;
 my $wanted = sub {
+    return if -d $File::Find::name;
     my $time = stat($File::Find::name)->mtime;
     $youngest = $time if $time > $youngest;
 };
@@ -56,8 +57,8 @@ sub file {
 # Build the app coderef
 my $app = builder {
     mount "/favicon.ico"                => file("favicon.ico");
-    mount "/puppet/nodes/"              => file(qw/testdata nodes.json/);
-    mount "/puppet/nagios_host_groups/" => file(qw/testdata nagios_host_groups.json/);
+    mount "/puppet/nodes/"              => file(qw/testdata mongodb_nodes.json/);
+    mount "/puppet/nagios_host_groups/" => file(qw/testdata mongodb_nagios_host_groups.json/);
     mount "/nagios-api/state"           => file(qw/testdata nagios-api-state.json/);
     mount "/"                           => file(@index);
     mount "/dev"                        => file("maint", "app.html");

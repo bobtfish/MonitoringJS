@@ -44,7 +44,7 @@ open(my $OUTJS, '>', File::Spec->catdir($Bin, "all.js"))
 print $OUTJS $types{js}{out};
 close($OUTJS);
 
-system("java -jar yuicompressor-2.3.6.jar all.js -o all.min.js")
+system("java -jar yuicompressor-2.3.6.jar $Bin/all.js -o $Bin/all.min.js")
     and die("yui compressor failed!");
 
 open(my $INJS, '<',  File::Spec->catdir($Bin, "all.min.js"))
