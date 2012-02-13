@@ -1,0 +1,28 @@
+maint/ directory
+
+To re-build the minified application, change into this directory and run:
+perl Makefile.PL
+make
+
+You will need the following dependencies:
+perl (>= 5.8)
+make
+java (>= 5)
+The Plack library from CPAN
+The App::FatPacker library from CPAN
+The PathTools library from CPAN
+
+List of files
+Makefile.PL             Builds the Makefile.
+Makefile                Builds the compacted html and server
+all.min.js              All javascript, post minifaction
+fatpacked_deps.pl       Dependencies for the test server, packed
+test.psgi               The test server itself.
+app.html                The un-compressed application html code
+fatpacker.trace         Dependency trace file
+packlists               Pack lists for the dependency perl modules
+fatlib                  Contains all the perl dependencies to be packed into the server.
+yuicompressor-2.3.6.jar The JS and CSS compressor
+server                  The generated server script with dependencies packed.
+concatjs.pl             Script used to concatenate the server script and build the output HTML
+

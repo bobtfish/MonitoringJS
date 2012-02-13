@@ -16884,7 +16884,7 @@ my $app = builder {
     mount "/puppet/nagios_host_groups/" => file(qw/testdata nagios_host_groups.json/);
     mount "/nagios-api/state"           => file(qw/testdata nagios-api-state.json/);
     mount "/"                           => file("index.html");
-    mount "/dev"                        => file("maint", "index.html");
+    mount "/dev"                        => file("maint", "app.html");
     mount "/js"                         => Plack::App::File->new(root => File::Spec->catdir(ROOT, "js"));
     mount "/css"                        => Plack::App::File->new(root => File::Spec->catdir(ROOT, "css"));
     mount "/img"                        => Plack::App::File->new(root => File::Spec->catdir(ROOT, "img"));

@@ -1,0 +1,15 @@
+MonitoringJS
+
+The entire project (excluding icon files) is inlined into index.html in the root
+directory for speed of loading.
+
+A test server is provided in 'server', which will run a PSGI server hosting the
+application and a sensible set of demonstration data.
+
+The un-compacted version of the site (for debugging or development) can be viewed
+using the development server at the path /dev/. This page uses the un-compacted
+source located in maint/app.html, and the un-minified Javascript in the js/ directory
+
+To re-build the inlined versions of the application, see instructions in the maint/
+directory.
+
