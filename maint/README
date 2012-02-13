@@ -11,6 +11,7 @@ java (>= 5)
 The Plack library from CPAN
 The App::FatPacker library from CPAN
 The PathTools library from CPAN
+The HTML::Tree library from CPAN
 
 List of files
 Makefile.PL             Builds the Makefile.
