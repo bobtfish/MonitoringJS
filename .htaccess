@@ -2,6 +2,14 @@
 order deny,allow
 deny from all
 </Files>
+<Files README>
+order deny,allow
+deny from all
+</Files>
+<Files ~ "maint.*">
+order deny,allow
+deny from all
+</Files>
 <Files ~ "\.git.*">
 order deny,allow
 deny from all
