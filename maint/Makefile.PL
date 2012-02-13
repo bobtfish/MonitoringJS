@@ -5,11 +5,21 @@ use FindBin qw/$Bin/;
 use File::Spec;
 # Hand generates Makefile
 
+eval {
+    require HTML::TreeBuilder;
+    require Plack;
+    require Cwd;
+    require App::FatPacker;
+};
+if ($@) {
+    die("Could not load perl dependency - please see README file if you want to regenerate\n"
+        . "The minified application: $@");
+}
+
+my $jslist = join(" ", split(/\n/, `find ../js -name \\*.js`));
 
 open(my $OUTFILE, '>', File::Spec->catdir($Bin, 'Makefile'))
     or die("Could not write Makefile: $!");
-
-my $jslist = join(" ", split(/\n/, `find ../js -name \\*.js | grep -v all.min.js`));
 
 # Re-generate Makefile if Makefile.PL updated hack
 print $OUTFILE qq{
@@ -23,6 +33,7 @@ NOECHO = @
 ECHO = echo
 MV = mv
 DEV_NULL = > /dev/null 2>&1
+FALSE = false
 
 all : server all.min.js $(FIRST_MAKEFILE)
 
@@ -42,28 +53,27 @@ $(FIRST_MAKEFILE) : Makefile.PL
 
 }.qq{
 fatpacker.trace : test.psgi
+\t\$(NOECHO) perl -MCwd -e1
+\t\$(NOECHO) perl -MPlack -e1
+\t\$(NOECHO) perl -e'use App::FatPacker ();'
 \tfatpack trace test.psgi
 packlists : fatpacker.trace
 \tfatpack packlists-for `cat fatpacker.trace` >packlists
 fatlib: packlists
 \tfatpack tree `cat packlists`
 fatpacked_deps.pl: fatlib
-\tfatpack file > fatpacked_deps.pl
+\tfatpack file > fatpacked_deps.pl 2>/dev/null
 server : fatpacked_deps.pl
-\techo "#!/usr/bin/env perl" > server
+\t\$(NOECHO) echo "#!/usr/bin/env perl" > server
 \tcat fatpacked_deps.pl test.psgi >>server
 \tchmod 755 server
-\tcp server ../server
+\t\$(NOECHO) cp server ../server
 
-all.js : $jslist
+all.min.js : app.html $jslist
 \tperl concatjs.pl
 
-all.min.js : all.js
-\tjava -jar yuicompressor-2.3.6.jar all.js -o all.min.js
-\tcp all.min.js ../js
-
 clean:
-\trm -rf fatpacked_deps.pl server packlists fatlib fatpacker.trace all.js ../js/all.min.js ../index.html
+\trm -rf fatpacked_deps.pl server packlists fatlib fatpacker.trace all.js all.min.js ../server ../index.html
 };
 close($OUTFILE);
 

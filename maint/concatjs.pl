@@ -7,7 +7,7 @@ use HTML::TreeBuilder;
 use JavaScript::Minifier qw/minify/;
 
 my $tree = HTML::TreeBuilder->new;
-$tree->parse_file(File::Spec->catdir($Bin, 'index.html'));
+$tree->parse_file(File::Spec->catdir($Bin, 'app.html'));
 my @js_nodes = $tree->look_down(
     "_tag" => "script",
     sub { $_[0]->attr('src') && $_[0]->attr('src') =~ /js$/ }
