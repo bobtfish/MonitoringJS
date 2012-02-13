@@ -3,30 +3,44 @@
 use strict;
 use warnings;
 use FindBin qw/$Bin/;
+use Cwd qw/ abs_path /;
+use File::Spec;
+
 use Plack::Runner;
 use Plack::App::File;
 use Plack::Builder;
 use Plack::Loader;
 use HTTP::Server::PSGI;
+use Cwd qw/ abs_path /;
 
-our $psgi_bin ||= $Bin;
+use constant ROOT =>
+    abs_path(
+        -d File::Spec->catdir($Bin, "js")
+        ? $Bin
+      : -d File::Spec->catdir($Bin, "..", "js")
+        ? File::Spec->catdir($Bin, "..")
+      : die("Cannot find js/ folder for app root")
+    );
 
-sub file { Plack::App::File->new(file => "$psgi_bin/../" . shift()) }
+warn ROOT;
+sub file {
+    Plack::App::File->new(file => File::Spec->catdir(ROOT, @_))
+}
 
 my $app = builder {
-    mount "/favicon.ico" => file("../favicon.ico");
-    mount "/puppet/nodes/" => file("testdata/nodes.json");
-    mount "/puppet/nagios_host_groups/" => file("testdata/nagios_host_groups.json");
-    mount "/nagios-api/state" => file("testdata/nagios-api-state.json");
-    mount "/" => file("../index.html");
-    mount "/js" => Plack::App::File->new(root => "$psgi_bin/js");
-    mount "/css" => Plack::App::File->new(root => "$psgi_bin/css");
-    mount "/img" => Plack::App::File->new(root => "$psgi_bin/img");
-    mount "/test" => file("../test/index.html");
-    mount "/test/vendor/qunit.js" => file("/test/vendor/qunit.js");
-    mount "/test/vendor/qunit.css" => file("/test/vendor/qunit.css");
-    mount "/test/model.js" => file("/test/model.js");
-    mount "/test/collections.js" => file("/test/collections.js");
+    mount "/favicon.ico"                => file("favicon.ico");
+    mount "/puppet/nodes/"              => file(qw/testdata nodes.json/);
+    mount "/puppet/nagios_host_groups/" => file(qw/testdata nagios_host_groups.json/);
+    mount "/nagios-api/state"           => file(qw/testdata nagios-api-state.json/);
+    mount "/"                           => file("index.html");
+    mount "/js"                         => Plack::App::File->new(root => File::Spec->catdir(ROOT, "js"));
+    mount "/css"                        => Plack::App::File->new(root => File::Spec->catdir(ROOT, "css"));
+    mount "/img"                        => Plack::App::File->new(root => File::Spec->catdir(ROOT, "img"));
+    mount "/test"                       => file(qw/test index.html/);
+    mount "/test/vendor/qunit.js"       => file(qw/test vendor qunit.js/);
+    mount "/test/vendor/qunit.css"      => file(qw/test vendor qunit.css/);
+    mount "/test/model.js"              => file(qw/test model.js/);
+    mount "/test/collections.js"        => file(qw/test collections.js/);
 };
 
 # Use Plack::Runner here so we can be directly run with perl
