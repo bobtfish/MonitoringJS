@@ -62,33 +62,22 @@ asyncTest("Load test data", function() {
       $.get('/nagios-api/state', function(data) {
           ok(data, "Got nagios state data");
           coll.parse_nagios(data);
-          start();
           equals(coll.length, 74, "74 hosts");
           var omni = coll.get("omni.state51.co.uk");
           ok(omni, 'Found host omni');
-          ok(omni.isOk(), 'Host omni is ok');
+          equals(omni.isOk(), -1, 'Host omni is ok but not monitored');
           var camel = coll.get("camel.cissme.com");
           ok(camel, "Found host camel");
-          ok(!camel.isOk(), 'Host camel is not ok');
+          equals(camel.isOk(), "0", 'Host camel is not ok');
           var moggy26 = coll.get("moggy26.cissme.com");
           ok(moggy26, 'Found host moggy26');
           ok(moggy26.isOk(), 'Host moggy26 is ok');
+          // Ensure to nuke the collection to avoid leaks and restart test case running at the end.
+          coll = false;
+          start();
       });
   });
   coll.fetch();
-});
-stop();
-
-asyncTest("Selected host", function() {
-  var coll = new CollectionOfHosts;
-  ok( !coll.has_selected(), "No host selected" );
-  coll.bind("host_selected", function (host) {
-      start();
-      ok(1, "Was selected");
-      equals(host, "foo.example.com"); // FIXME!
-  });
-  coll.selected("foo.example.com");
-  ok( coll.has_selected(), "Has a selected" );
 });
 stop();
 
@@ -127,9 +116,9 @@ test("Load test data", function() {
       });
   var coll = new CollectionOfNagiosResults([ob_ok]);
   ok(coll.isOk(), 'ok collection is');
-  coll = new CollectionOfNagiosResults([ob_fail]); 
+  coll = new CollectionOfNagiosResults([ob_fail]);
   ok(!coll.isOk(), 'fail collection is');
-  coll = new CollectionOfNagiosResults([ob_ok, ob_fail]); 
+  coll = new CollectionOfNagiosResults([ob_ok, ob_fail]);
     ok(!coll.isOk(), 'mixed collection is not ok');
 });
 
