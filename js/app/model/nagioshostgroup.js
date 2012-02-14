@@ -2,17 +2,16 @@ var NagiosHostGroup = Backbone.Model.extend({
     hostCount: function() {
         var count = 0;
         _.each(this.get("hosts"), function(fqdn) {
-            var host = App.hostsCollection.get(fqdn);
+            var host = this.collection.hostsCollection.get(fqdn);
             if (host && host.doNotMonitor()) { } else { count++ };
-        });
+        }, this);
         return count;
     },
     isOk: function() {
         var res = 1;
         var set_res = 0;
         _.each(this.get("hosts"), function(fqdn) {
-            // FIXME
-            var host = App.hostsCollection.get(fqdn);
+            var host = this.collection.hostsCollection.get(fqdn);
             if (host) {
                 var isOk = host.isOk();
                 if (isOk == 0) {
@@ -23,7 +22,7 @@ var NagiosHostGroup = Backbone.Model.extend({
                     set_res = 1;
                 }
             }
-        });
+        }, this);
         if (res == 1 && set_res == 0) {
             res = -2;
         }

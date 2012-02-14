@@ -6,7 +6,9 @@ var AppView = Backbone.View.extend({
     initialize: function() {
         var hostsCollection = new CollectionOfHosts;
         this.hostsCollection = hostsCollection;
-        var nagiosHostGroupsCollection = new CollectionOfNagiosHostGroups;
+        var nagiosHostGroupsCollection = new CollectionOfNagiosHostGroups();
+        // FIXME - Should be able to inject parameters into a Collection's constructor!
+        nagiosHostGroupsCollection.hostsCollection = this.hostsCollection;
         this.NagiosHostGroupsCollection = nagiosHostGroupsCollection;
         var nagiosHostGroupListView = new NagiosHostGroupListView({
             hostGroupCollection: nagiosHostGroupsCollection,

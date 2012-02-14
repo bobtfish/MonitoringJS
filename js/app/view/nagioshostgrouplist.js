@@ -11,16 +11,14 @@ var NagiosHostGroupListView = Backbone.View.extend({
         this.hostsCollection = this.options.hostsCollection;
     },
     addOne: function(hostgroup) {
-      // FIXME
-      var hostsCollection = App.hostsCollection;
+      var hostsCollection = this.hostsCollection;
       var view = new NagiosHostGroupView({model: hostgroup, "hostsCollection": hostsCollection});
       $("#nagios_hostgroups").append(view.render().el);
     },
     addAll: function() {
-        var appview = this;
         var hosts_collection = this.hostGroupCollection;
         $("#nagios_hostgroups").empty();
-        hosts_collection.each(appview.addOne);
+        hosts_collection.each(this.addOne, this);
     },
     render: function() { "" }
 });
