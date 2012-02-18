@@ -4,7 +4,6 @@ use warnings;
 use File::Spec;
 use FindBin qw/ $Bin /;
 use HTML::TreeBuilder;
-use JavaScript::Minifier qw/minify/;
 
 my $tree = HTML::TreeBuilder->new;
 $tree->parse_file(File::Spec->catdir($Bin, 'app.html'));

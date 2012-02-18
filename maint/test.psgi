@@ -69,6 +69,7 @@ my $app = builder {
     mount "/test/vendor/qunit.js"       => file(qw/test vendor qunit.js/);
     mount "/test/vendor/qunit.css"      => file(qw/test vendor qunit.css/);
     mount "/test/model.js"              => file(qw/test model.js/);
+    mount "/test/view.js"              => file(qw/test view.js/);
     mount "/test/collections.js"        => file(qw/test collections.js/);
 };
 

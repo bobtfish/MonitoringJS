@@ -15,7 +15,7 @@ var HostListView = Backbone.View.extend({
         var appview = this;
         var hosts_collection = this.hostsCollection;
         $("#host-list").empty();
-        hosts_collection.each(appview.addOne);
+        hosts_collection.each(appview.addOne, appview);
     },
     render: function() { "" }
 });
