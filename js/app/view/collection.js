@@ -1,7 +1,21 @@
+/**
+   View for a collection
+
+   Mandatory parameters:
+
+   elementView - Class implementing the view for an individual model element
+   collection - A backbone collection of models
+
+   Optional parameters:
+
+   elementViewParameters - a hash of parameters to be passed down into
+                           constructed element views. This is cloned and
+                           the 'model' parameters is added during construction
+
+*/
 var CollectionView = Backbone.View.extend({
     initialize: function() {
-        this.Collection = this.options.collection;
-        if (!this.Collection) {
+        if (!this.collection) {
             throw("CollectionView must be constructed with a collection");
         }
         if (this.options.elementView) {
@@ -10,21 +24,21 @@ var CollectionView = Backbone.View.extend({
         if (!this.elementView) {
             throw("CollectionView must be constructed with an elementView");
         }
-        this.ElementViewParameters = this.options.elementViewParameters || {};
-        this.Collection.bind('add',   this.addOne, this);
-        this.Collection.bind('reset', this.addAll, this);
-        this.Collection.bind('all',   this.render, this);
+        this.elementViewParameters = this.options.elementViewParameters || {};
+        this.collection.bind('add',   this.addOne, this);
+        this.collection.bind('reset', this.addAll, this);
+        this.collection.bind('all',   this.render, this);
     },
     addOne: function(ob) {
-      var params = _.clone(this.ElementViewParameters);
-      params.model = ob;
+      var params = _.clone(this.elementViewParameters);
+      params.model = ob; // Add in the model object
       var view = new this.elementView(params);
       $(this.el).append(view.render().el);
     },
     addAll: function() {
-        var collection = this.Collection;
         $(this.el).empty();
-        this.Collection.each(this.addOne, this);
+        this.collection.each(this.addOne, this);
     },
-    render: function() { "" }
+    // FIXME!?
+    render: function() { }
 });

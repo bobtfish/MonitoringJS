@@ -1,3 +1,6 @@
+// This is the top level application class.
+// It sets up the rest of the application..
+
 var AppView = Backbone.View.extend({
     // Instead of generating a new element, bind to the existing skeleton of
     // the App already present in the HTML.
