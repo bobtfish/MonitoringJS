@@ -11,8 +11,9 @@ var AppView = Backbone.View.extend({
         nagiosHostGroupsCollection.hostsCollection = this.hostsCollection;
         this.NagiosHostGroupsCollection = nagiosHostGroupsCollection;
         var nagiosHostGroupListView = new NagiosHostGroupListView({
-            hostGroupCollection: nagiosHostGroupsCollection,
-            hostsCollection: this.hostsCollection
+            collection: nagiosHostGroupsCollection,
+            elementViewParameters: { hostsCollection: this.hostsCollection },
+            elementView: NagiosHostGroupView
         });
         this.nagiosHostGroupListView = nagiosHostGroupListView;
         var hostsListView = new HostListView({"hostsCollection": this.hostsCollection});

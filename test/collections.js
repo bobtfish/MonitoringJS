@@ -56,9 +56,10 @@ test("PuppetClasses", function() {
 });
 
 asyncTest("Load test data", function() {
-  var coll = new CollectionOfHosts;
+  var coll = new CollectionOfHosts();
   coll.bind("reset", function() {
       ok(1, "Was reset");
+      var coll = this;
       $.get('/nagios-api/state', function(data) {
           ok(data, "Got nagios state data");
           coll.parse_nagios(data);

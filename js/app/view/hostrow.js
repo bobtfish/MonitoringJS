@@ -18,6 +18,6 @@ var HostRowView = Backbone.View.extend({
     },
     show_detail: function() {
         var id = this.model.get("id");
-        App.render_one_host(id);        
+        App.render_one_host(id);
     }
 });
