@@ -1,4 +1,7 @@
 var NagiosHostGroup = Backbone.Model.extend({
+    hosts: function() {
+        return this.get("hosts");
+    },
     hostCount: function() {
         var count = 0;
         _.each(this.get("hosts"), function(fqdn) {

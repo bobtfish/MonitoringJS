@@ -1,5 +1,5 @@
 var NagiosHostGroupView = Backbone.View.extend({
-    tagName: "li",
+    tagName: "div",
     template: _.template($('#nagioshostgroup-item-template').html()),
     initialize: function() {
         this.model.bind('change', this.render, this);
@@ -15,4 +15,10 @@ var NagiosHostGroupView = Backbone.View.extend({
         $(this.el).html(this.template(data));
         return this;
     },
+    events: {
+        "click a.nagioshostgroup-detail"   : "show_detail",
+    },
+    show_detail: function() {
+        alert("FOO");
+    }
 });
