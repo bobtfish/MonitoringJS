@@ -1,4 +1,4 @@
-var CollectionOfNagiosHostGroups = Backbone.Collection.extend({
+var CollectionOfNagiosHostGroups = MyCollection.extend({
     model: NagiosHostGroup,
     parse: function(response) {
         var collection = this;

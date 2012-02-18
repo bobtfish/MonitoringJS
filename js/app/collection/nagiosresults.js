@@ -1,4 +1,4 @@
-var CollectionOfNagiosResults = Backbone.Collection.extend({
+var CollectionOfNagiosResults = MyCollection.extend({
   model: NagiosServiceResult,
   isOk: function () {
       return this.all(function(val){ return val.isOk() });

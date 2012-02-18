@@ -1,4 +1,4 @@
-var CollectionOfPuppetClasses = Backbone.Collection.extend({
+var CollectionOfPuppetClasses = MyCollection.extend({
   model: PuppetClass,
   add_unless_exists: function (name) {
       var already = this.get(name);
