@@ -38,13 +38,13 @@ sub run {
 
 sub parse_from_line {
     my $line = shift;
-    my ($timestamp, $type) = $line =~ s/\[(\d+)\} ([\w\s]+): //;
-    return ()
-        unless $type eq "SERVICE NOTIFICATION";
+    my ($timestamp) = $line =~ m/\[(\d+)\]\s+SERVICE ALERT: /
+        or do { warn "Unparseable line $line\n"; return (); };
     # FIXME - WTF do these fields mean?!?
     my ($host, $service, $status, $soft, $number, $message)
         = $line =~ /(\w+);(\w+);(\w+);(\w+);(\w+);(.*)$/;
     return {
+        type => 'nagios_service_alert',
         hostname => $host,
         service => $service,
         last_check => $timestamp,
