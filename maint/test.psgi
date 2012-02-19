@@ -68,7 +68,7 @@ my %update_handles;
 my $production_log = "/var/log/nagios3/nagios.log";
 my $nagios_log_file = -r $production_log
     ? $production_log
-    : File::Spec->catpath(ROOT, "test", "nagios.log");
+    : File::Spec->catpath(ROOT, "testdata", "nagios.log");
 
 my $updater = state51::MonitoringJS::Updater->new(
     filename => $nagios_log_file,

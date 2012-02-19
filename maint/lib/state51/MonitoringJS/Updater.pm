@@ -28,10 +28,29 @@ sub run {
             my $hdl = shift;
             my $buf = $hdl->rbuf;
             $hdl->rbuf('');
-            $self->on_read->($_) for split("\n", $buf);
+            #[1329682622] SERVICE ALERT: jobcentre;RABBIT_FD;OK;SOFT;2;20
+            my @lines = map { parse_from_line($_) } split("\n", $buf);
+            $self->on_read->($_) for @lines;
         },
     );
     return $self;
+}
+
+sub parse_from_line {
+    my $line = shift;
+    my ($timestamp, $type) = $line =~ s/\[(\d+)\} ([\w\s]+): //;
+    return ()
+        unless $type eq "SERVICE NOTIFICATION";
+    # FIXME - WTF do these fields mean?!?
+    my ($host, $service, $status, $soft, $number, $message)
+        = $line =~ /(\w+);(\w+);(\w+);(\w+);(\w+);(.*)$/;
+    return {
+        hostname => $host,
+        service => $service,
+        last_check => $timestamp,
+        plugin_output => $message,
+        current_state => $status,
+    };
 }
 
 1;
