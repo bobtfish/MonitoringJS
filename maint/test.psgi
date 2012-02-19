@@ -7,6 +7,7 @@
 use strict;
 use warnings;
 use FindBin qw/$Bin/;
+use lib "$Bin/lib";
 use Cwd qw/ abs_path /;
 use File::Spec;
 
@@ -54,6 +55,18 @@ sub file {
     Plack::App::File->new(file => File::Spec->catdir(ROOT, @_))
 }
 
+# Load AnyEvent correctly in PP mode.
+BEGIN { $ENV{PERL_ANYEVENT_MODEL} = 'Perl' }
+use AnyEvent;
+BEGIN { AnyEvent::detect() }
+
+use state51::MonitoringJS::Updater;
+
+my $updater = state51::MonitoringJS::Updater->new(
+    filename => File::Spec->catpath(ROOT, "test", "nagios.log"),
+    on_read => sub { warn shift() },
+)->run;
+
 # Build the app coderef
 my $app = builder {
     mount "/favicon.ico"                => file("favicon.ico");
@@ -76,6 +89,9 @@ my $app = builder {
 # Use Plack::Runner here so we can be directly run with perl
 # as a perl script. The caller magic also allows us to be used
 # as a psgi script, as we don't run anything when require'd
+use Fliggy::Server;
+$ENV{PLACK_SERVER} = "Fliggy";
+
 unless (caller()) {
     my $runner = Plack::Runner->new;
     $runner->parse_options(@ARGV);

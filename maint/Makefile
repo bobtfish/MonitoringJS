@@ -45,7 +45,7 @@ server : fatpacked_deps.pl
 	chmod 755 server
 	$(NOECHO) cp server ../server
 
-all.min.js : app.html ../js/*.js ../js/app/*.js ../js/app/collection/*.js ../js/app/model/*.js ../js/app/view/*.js
+all.min.js : app.html ../js/app/collection/hostswithaclass.js ../js/app/collection/nagioshostgroups.js ../js/app/collection/nagiosresults.js ../js/app/collection/ofhosts.js ../js/app/collection/puppetclasses.js ../js/app/collection.js ../js/app/model/host.js ../js/app/model/nagioshostgroup.js ../js/app/model/nagiosserviceresult.js ../js/app/model/puppetclass.js ../js/app/view/app.js ../js/app/view/collection.js ../js/app/view/hostlist.js ../js/app/view/hostrow.js ../js/app/view/nagioshostgroup.js ../js/app/view/nagioshostgrouplist.js ../js/backbone.js ../js/bootstrap.js ../js/jquery-1.7.1.min.js ../js/json2.js ../js/underscore-1.1.6.js
 	perl concatjs.pl
 
 clean:

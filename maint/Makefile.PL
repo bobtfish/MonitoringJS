@@ -58,7 +58,7 @@ fatpacker.trace : test.psgi
 \t\$(NOECHO) perl -e'use App::FatPacker ();'
 \tfatpack trace test.psgi
 packlists : fatpacker.trace
-\tfatpack packlists-for `cat fatpacker.trace` >packlists
+\tperl -e'use lib "lib"; use App::FatPacker -run_script;' packlists-for `cat fatpacker.trace` >packlists
 fatlib: packlists
 \tfatpack tree `cat packlists`
 fatpacked_deps.pl: fatlib
