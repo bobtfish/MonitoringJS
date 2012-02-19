@@ -25,9 +25,9 @@ var CollectionView = Backbone.View.extend({
             throw("CollectionView must be constructed with an elementView");
         }
         this.elementViewParameters = this.options.elementViewParameters || {};
-        this.collection.bind('add',   this.addOne, this);
-        this.collection.bind('reset', this.addAll, this);
-        this.collection.bind('all',   this.render, this);
+        this.collection.on('add',   this.addOne, this);
+        this.collection.on('reset', this.addAll, this);
+        this.collection.on('all',   this.render, this);
     },
     addOne: function(ob) {
       var params = _.clone(this.elementViewParameters);

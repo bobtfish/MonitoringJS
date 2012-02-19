@@ -23,9 +23,9 @@ var AppView = Backbone.View.extend({
             collection: nagiosHostGroupsCollection,
             elementViewParameters: { hostsCollection: hostsCollection },
         });
-        hostsCollection.bind('reset', this.addAll, this);
-        hostsCollection.bind('reset', function () { nagiosHostGroupsCollection.sort() }, this);
-        hostsCollection.bind('all',   this.render, this);
+        hostsCollection.on('reset', this.addAll, this);
+        hostsCollection.on('reset', function () { nagiosHostGroupsCollection.sort() }, this);
+        hostsCollection.on('all',   this.render, this);
         hostsCollection.fetch();
         nagiosHostGroupsCollection.fetch();
     },

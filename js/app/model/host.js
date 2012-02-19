@@ -22,7 +22,12 @@ var Host = Backbone.Model.extend({
               rows.push(value); 
         });
         var collectionOfNagiosResults = new CollectionOfNagiosResults(rows);
+        collectionOfNagiosResults.host_fqdn = host.get("fqdn");
         this.set({'nagios_results': collectionOfNagiosResults}, {silent: true});
+        collectionOfNagiosResults.on("change", this.nagios_change, this);
+    },
+    nagios_change: function(collection, model) {
+        console.log("CHANGE " + this + " " + collection + " " + model);
     },
     hasPuppetClass: function (name) {
         return _.any(this.get("classes"), function (test_name) { return test_name == name });
@@ -82,5 +87,13 @@ var Host = Backbone.Model.extend({
             return [];
         }
         return this.get('nagios_results').clone_and_filter_failed();
+    },
+    parse_nagios_service_update: function(update) {
+        //console.log("Host " + this.get("id") + " got nagios update " + JSON.stringify(update, false, 2));
+        var nagios_results = this.get('nagios_results');
+        if (!nagios_results) {
+            return;
+        }
+        nagios_results.parse_nagios_service_update(update);
     }
 });

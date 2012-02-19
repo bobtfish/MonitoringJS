@@ -2,8 +2,8 @@ var NagiosHostGroupView = Backbone.View.extend({
     tagName: "div",
     template: _.template($('#nagioshostgroup-item-template').html()),
     initialize: function() {
-        this.model.bind('change', this.render, this);
-        this.model.bind('destroy', this.remove, this);
+        this.model.on('change', this.render, this);
+        this.model.on('destroy', this.remove, this);
         this.hostsCollection = this.options.hostsCollection;
         this.hostsCollection.bind('reset', this.render, this);
     },

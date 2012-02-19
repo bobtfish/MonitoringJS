@@ -13,5 +13,16 @@ var NagiosServiceResult = Backbone.Model.extend({
         }
         //alert('ret 1');
         return false;
+    },
+    parse_nagios_service_update: function(data) {
+        console.log("Update self from " + JSON.stringify(data, false, 2));
+        if (data.current_state == "OK") {
+            this.set({"current_state": 0}, {silent: true});
+        }
+        else { // FIXME - There is a warning state?
+            this.set({"current_state": 1}, {silent: true});
+        }
+        this.set({plugin_output: data.plugin_output, last_check: data.last_check}, {silent: true});
+        this.change();
     }
 });

@@ -4,8 +4,8 @@ var HostRowView = Backbone.View.extend({
     className: "host-row",
     template: _.template($('#host-template').html()),
     initialize: function() {
-        this.model.bind('change', this.render, this);
-        this.model.bind('destroy', this.remove, this);
+        this.model.on('change', this.render, this);
+        this.model.on('destroy', this.remove, this);
     },
     events: {
         "click a.host-detail"   : "show_detail",

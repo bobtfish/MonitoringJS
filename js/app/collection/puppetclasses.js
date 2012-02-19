@@ -11,6 +11,9 @@ var CollectionOfPuppetClasses = MyCollection.extend({
       }
   },
   comparator: function(ob) {
+      if (!ob) {
+          return;
+      }
       return ob.get("count");
   },
 });

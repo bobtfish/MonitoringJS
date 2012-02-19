@@ -3,7 +3,7 @@ var CollectionOfHosts = MyCollection.extend({
   model: Host,
   initialize: function() {
       this.PuppetClasses = new CollectionOfPuppetClasses;
-      this.bind('reset', function () {
+      this.on('reset', function () {
           this.PuppetClasses.sort()
       }, this);
   },
@@ -22,7 +22,7 @@ var CollectionOfHosts = MyCollection.extend({
   parse_nagios: function(response) {
       var collection = this;
       $.each(response.content, function(hostname, value) {
-          var thisHost = collection.find(function (host) { return hostname == host.get("facts").hostname });
+          var thisHost = collection.get_by_hostname(hostname);
           if (thisHost) {
               thisHost.parse_nagios(value);
           }
@@ -33,14 +33,24 @@ var CollectionOfHosts = MyCollection.extend({
       return this.clone_and_filter_by_property("classes", classname);
   },
   comparator: function(ob) {
+      if (!ob) {
+          return;
+      }
       return ob.isOkcompartor() + ob.get("fqdn_sortable");
   },
   url: '/puppet/nodes/',
   add_event_router: function (eventRouter) {
       this.eventRouter = eventRouter;
-      eventRouter.bind("hippie:message:nagios_service_alert", this.nagios_service_update, this);
+      eventRouter.on("hippie:message:nagios_service_alert", this.nagios_service_update, this);
   },
   nagios_service_update: function(msg) {
-      console.log("CollectionOfHosts: got message: " + JSON.stringify(msg, false, 2));
+      //console.log("CollectionOfHosts: got message: " + JSON.stringify(msg, false, 2));
+      var host = this.get_by_hostname(msg.hostname);
+      if (host) {
+          host.parse_nagios_service_update(msg);
+      }
+  },
+  get_by_hostname: function(hostname) {
+      return this.find(function (host) { return hostname == host.get("facts").hostname });
   }
 });

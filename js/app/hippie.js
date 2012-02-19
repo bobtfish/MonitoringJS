@@ -19,7 +19,8 @@ var ourHippie = function (event_router) {
         return hippie;
     };
 
-    event_router.bind("hippie:disconnected", function() {
+    event_router.on("hippie:disconnected", function() {
+
         object.new_hippie_timeout = setTimeout(function () {
             console.log("Hippie: Reconnect");
             object.new_hippie_timeout = false;
