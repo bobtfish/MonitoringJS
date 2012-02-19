@@ -1,0 +1,11 @@
+[1329667072] SERVICE ALERT: moggy75;PUPPET;UNKNOWN;SOFT;1;No output
+[1329667132] SERVICE ALERT: moggy75;PUPPET;UNKNOWN;SOFT;2;No output
+[1329667182] SERVICE ALERT: moggy75;PUPPET;OK;SOFT;3;OK: Puppet was last run 12 minutes and 24 seconds ago
+[1329667532] SERVICE ALERT: import0;PUPPET;UNKNOWN;SOFT;1;No output
+[1329667592] SERVICE ALERT: import0;PUPPET;OK;SOFT;2;OK: Puppet was last run 4 minutes and 44 seconds ago
+[1329667812] SERVICE ALERT: magpie;PUPPET;UNKNOWN;SOFT;1;No output
+[1329667862] SERVICE ALERT: magpie;PUPPET;OK;SOFT;2;OK: Puppet was last run 17 minutes and 11 seconds ago
+[1329668982] Auto-save of retention data completed successfully.
+[1329669672] SERVICE ALERT: magpie;PUPPET;UNKNOWN;SOFT;1;No output
+[1329669722] SERVICE ALERT: magpie;PUPPET;OK;SOFT;2;OK: Puppet was last run 6 minutes and 43 seconds ago
+[1329672472] SERVICE ALERT: moggy8;ROOTSPACE;OK;HARD;3;Free space 22%

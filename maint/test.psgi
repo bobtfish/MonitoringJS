@@ -59,12 +59,25 @@ sub file {
 BEGIN { $ENV{PERL_ANYEVENT_MODEL} = 'Perl' }
 use AnyEvent;
 BEGIN { AnyEvent::detect() }
-
+use Scalar::Util qw/ refaddr /;
 use state51::MonitoringJS::Updater;
 
+my %update_handles;
+
+my $production_log = "/var/log/nagios3/nagios.log";
+my $nagios_log_file = -r $production_log
+    ? $production_log
+    : File::Spec->catpath(ROOT, "test", "nagios.log");
+
 my $updater = state51::MonitoringJS::Updater->new(
-    filename => File::Spec->catpath(ROOT, "test", "nagios.log"),
-    on_read => sub { warn shift() },
+    filename => $nagios_log_file,
+    on_read => sub {
+        my $line = shift;
+        $_->send_msg({
+            type => 'nagios_result',
+            line => $line,
+        }) for values %update_handles;
+    },
 )->run;
 
 # Build the app coderef
@@ -84,6 +97,35 @@ my $app = builder {
     mount "/test/model.js"              => file(qw/test model.js/);
     mount "/test/view.js"              => file(qw/test view.js/);
     mount "/test/collections.js"        => file(qw/test collections.js/);
+    mount '/_hippie' => builder {
+        enable "+Web::Hippie";
+        sub {
+            my $env = shift;
+            my $interval = $env->{'hippie.args'} || 5;
+            my $h = $env->{'hippie.handle'};
+ 
+            if ($env->{PATH_INFO} eq '/init') {
+                $update_handles{refaddr($h)} = $h;
+            }
+            elsif ($env->{PATH_INFO} eq '/message') {
+                my $msg = $env->{'hippie.message'};
+                warn "==> got msg from client: ".Dumper($msg);
+            }
+            else {
+                return [ '400', [ 'Content-Type' => 'text/plain' ], [ "" ] ]
+                    unless $h;
+ 
+                if ($env->{PATH_INFO} eq '/error') {
+                    warn "==> disconnecting $h";
+                    delete $update_handles{refaddr($h)};
+                }
+                else {
+                    die "unknown hippie message";
+                }
+            }
+            return [ '200', [ 'Content-Type' => 'application/hippie' ], [ "" ] ]
+        }
+    };
 };
 
 # Use Plack::Runner here so we can be directly run with perl
