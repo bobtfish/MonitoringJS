@@ -60,6 +60,7 @@ use AnyEvent;
 BEGIN { AnyEvent::detect() }
 use Scalar::Util qw/ refaddr /;
 use state51::MonitoringJS::Updater;
+use Web::Hippie;
 
 my %update_handles;
 
