@@ -15,7 +15,6 @@ use Plack::Runner;
 use Plack::App::File;
 use Plack::Builder;
 use Plack::Loader;
-use HTTP::Server::PSGI;
 use Cwd qw/ abs_path /;
 use File::stat;
 use File::Find;
