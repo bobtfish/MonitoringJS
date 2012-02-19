@@ -94,6 +94,7 @@ my $production_log = "/var/log/nagios3/nagios.log"; # For deployment
 my $nagios_log_file = -r $production_log # Doesn't exist on my mac
     ? $production_log                    # so we just use the test one
     : File::Spec->catpath(ROOT, "testdata", "nagios.log");
+warn "Nagios log file is $nagios_log_file\n";
 
 my $updater = state51::MonitoringJS::Updater->new(
     filename => $nagios_log_file,

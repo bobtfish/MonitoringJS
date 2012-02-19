@@ -35,5 +35,12 @@ var CollectionOfHosts = MyCollection.extend({
   comparator: function(ob) {
       return ob.isOkcompartor() + ob.get("fqdn_sortable");
   },
-  url: '/puppet/nodes/'
+  url: '/puppet/nodes/',
+  add_event_router: function (eventRouter) {
+      this.eventRouter = eventRouter;
+      eventRouter.bind("hippie:message:nagios_service_alert", this.nagios_service_update, this);
+  },
+  nagios_service_update: function(msg) {
+      alert(JSON.stringify(msg, false, 2));
+  }
 });

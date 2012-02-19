@@ -28,7 +28,6 @@ sub run {
             my $hdl = shift;
             my $buf = $hdl->rbuf;
             $hdl->rbuf('');
-            #[1329682622] SERVICE ALERT: jobcentre;RABBIT_FD;OK;SOFT;2;20
             my @lines = map { parse_from_line($_) } split("\n", $buf);
             $self->on_read->($_) for @lines;
         },
@@ -38,6 +37,7 @@ sub run {
 
 sub parse_from_line {
     my $line = shift;
+    #[1329682622] SERVICE ALERT: jobcentre;RABBIT_FD;OK;SOFT;2;20
     my ($timestamp) = $line =~ m/\[(\d+)\]\s+SERVICE ALERT: /
         or do { warn "Unparseable line $line\n"; return (); };
     # FIXME - WTF do these fields mean?!?

@@ -166,6 +166,7 @@
         <script src="/js/hippie.js" type="text/javascript"></script>
         <script src="/js/underscore-1.1.6.js" type="text/javascript"></script>
         <script src="/js/backbone.js" type="text/javascript"></script>
+        <script src="/js/app/hippie.js" type="text/javascript"></script>
         <script src="/js/app/collection.js" type="text/javascript"></script>
         <script src="/js/app/view/collection.js" type="text/javascript"></script>
         <script src="/js/app/model/nagioshostgroup.js" type="text/javascript"></script>
@@ -182,19 +183,6 @@
         <script src="/js/app/view/hostlist.js" type="text/javascript"></script>
         <script src="/js/app/view/app.js" type="text/javascript"></script>
         <script src="/js/bootstrap.js" type="text/javascript"></script>
-        <script>
-            $(function() {
-                var hippie = new Hippie( document.location.host, 5, function() {
-                             console.log("connected");
-                           },
-                           function() {
-                             console.log("disconnected");
-                           },
-                           function(e) {
-                             console.log("got message: type = "+e.type+", line = "+e.line);
-                           } );
-            });
-        </script>
     </body>
 </html>
 

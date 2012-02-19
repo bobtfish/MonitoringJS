@@ -7,7 +7,17 @@ var AppView = Backbone.View.extend({
     el: $("#todoapp"),
 
     initialize: function() {
+        var eventRouter = _.clone(Backbone.Events)
+        var hippie = ourHippie(eventRouter);
+        eventRouter.bind("hippie:disconnected", function() {
+            window.new_hippie_timeout = setTimeout(function () {
+                console.log("Hippie: Reconnect");
+                hippie = ourHippie(eventRouter);
+                window.new_hippie_timeout = false;
+            },3000);
+        });
         var hostsCollection = new CollectionOfHosts;
+        hostsCollection.add_event_router(eventRouter);
         this.hostsCollection = hostsCollection;
         var nagiosHostGroupsCollection = new CollectionOfNagiosHostGroups();
         // FIXME - Should be able to inject parameters into a Collection's constructor!

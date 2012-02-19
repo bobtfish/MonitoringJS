@@ -21,6 +21,6 @@ var NagiosHostGroupView = Backbone.View.extend({
         "click a.nagioshostgroup-detail"   : "show_detail",
     },
     show_detail: function() {
-        alert("FOO");
+        alert("Not implemented, sorry");
     }
 });
