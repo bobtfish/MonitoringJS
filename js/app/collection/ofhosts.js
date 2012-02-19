@@ -41,6 +41,6 @@ var CollectionOfHosts = MyCollection.extend({
       eventRouter.bind("hippie:message:nagios_service_alert", this.nagios_service_update, this);
   },
   nagios_service_update: function(msg) {
-      alert(JSON.stringify(msg, false, 2));
+      console.log("CollectionOfHosts: got message: " + JSON.stringify(msg, false, 2));
   }
 });

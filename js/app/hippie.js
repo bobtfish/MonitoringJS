@@ -8,10 +8,11 @@ var ourHippie = function (event_router) {
             function() {
                 event_router.trigger("hippie:disconnected", "ok");
                 console.log("Hippie: disconnected");
+                object.hippie = false;
             },
             function(e) {
                 event_router.trigger("hippie:message:" + e.type, e);
-                console.log("Hippie: got message: " + JSON.stringify(e));
+                //console.log("Hippie: got message: " + JSON.stringify(e));
             }
         );
         this.hippie = hippie;
