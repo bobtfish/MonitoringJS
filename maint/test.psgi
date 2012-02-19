@@ -55,6 +55,12 @@ use constant ROOT =>
       : die("Cannot find js/ folder for app root")
     );
 
+# All of the bollocks below works out if we should serve a minified
+# aka deployment version of the index (index.html), or the test version:
+# maint/app.html as the main index.
+# We do this once, at startup, as re-writing the index.html (for deployment)
+# is fine as we (and apache!) serve that every time..
+
 # Find the newest js or CSS file's mtime
 my $youngest = 0;
 my $wanted = sub {
@@ -73,28 +79,27 @@ my $minified_mtime = stat(File::Spec->catdir(ROOT, 'index.html'))->mtime;
 
 # And use the minified version if possible, or the multi-file version if
 # the application has been edited.
-my @index = $minified_mtime > $youngest ? ("index.html") : ("maint", "app.html");
+my @index =
+    $minified_mtime > $youngest
+    ? ("index.html")
+    : ("maint", "app.html");
 
 # Helper function to locate a file
 sub file {
     Plack::App::File->new(file => File::Spec->catdir(ROOT, @_))
 }
 
-my %update_handles;
-
-my $production_log = "/var/log/nagios3/nagios.log";
-my $nagios_log_file = -r $production_log
-    ? $production_log
+my %update_handles; # Hippie handles to push to
+my $production_log = "/var/log/nagios3/nagios.log"; # For deployment
+my $nagios_log_file = -r $production_log # Doesn't exist on my mac
+    ? $production_log                    # so we just use the test one
     : File::Spec->catpath(ROOT, "testdata", "nagios.log");
 
 my $updater = state51::MonitoringJS::Updater->new(
     filename => $nagios_log_file,
     on_read => sub {
         my $line = shift;
-        $_->send_msg({
-            type => 'nagios_result',
-            line => $line,
-        }) for values %update_handles;
+        $_->send_msg($line) for values %update_handles;
     },
 )->run;
 
