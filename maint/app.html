@@ -148,12 +148,10 @@
     	                <i class="icon-<%= iconClass %>"></i><%= id %> (<%= hostCount %>)
     	            </a>
     	        </div>
-    	        <% var first = 1; _.each(hosts, function(host, index) {
-    	            %><div style="<% if (first) { %> margin-left: 11px;<% } %>" class="span2<% if (!first) { %> offset2<% } %>"><%= host %></div><%
+    	        <% var first = 1; _.each(hostObjects, function(host, index) {
+    	            %><div style="<% if (first) { %> margin-left: 11px;<% } %>" class="span2<% if (!first) { %> offset2<% } %>"><%= host.get("fqdn") %></div><%
     	            first = 0;
-    	            _.each([], function(result, index) {
-    	                %><%= JSON.stringify(result, false, 2) %><%
-    	            });
+    	                %><%= host.failed_nagios_results().map(function(result) { return result.get("name") + " " + result.get("plugin_output") }).join("<br />") %><%
 	                %></div></div><div class="row"><%
     	        }); %>
         </script>

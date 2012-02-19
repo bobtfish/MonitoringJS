@@ -12,6 +12,8 @@ var NagiosHostGroupView = Backbone.View.extend({
         data.isOk = this.model.isOk();
         data.iconClass = this.model.iconClass();
         data.hostCount = this.model.hostCount();
+        data.hosts = this.model.monitorable_host_names();
+        data.hostObjects = this.model.monitorable_hosts();
         $(this.el).html(this.template(data));
         return this;
     },

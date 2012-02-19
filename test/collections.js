@@ -76,6 +76,14 @@ asyncTest("Load test data", function() {
           var camel = coll.get("camel.cissme.com");
           ok(camel, "Found host camel");
           equals(camel.isOk(), "0", 'Host camel is not ok');
+          var res = camel.failed_nagios_results();
+          var list = [];
+          res.map(function(result) { list.push(result) });
+          equals(list[0].get('name'), 'REPL_INCOMPLETE');
+          equals(list.length, 1);
+          alert(JSON.stringify(coll.get("pilot.cissme.com").failed_nagios_results(), false, 2));
+          var pilot_fails = coll.get("pilot.cissme.com").failed_nagios_results();
+          equals(pilot_fails.length, 0);
           var moggy26 = coll.get("moggy26.cissme.com");
           ok(moggy26, 'Found host moggy26');
           ok(moggy26.isOk(), 'Host moggy26 is ok');

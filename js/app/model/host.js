@@ -77,7 +77,10 @@ var Host = Backbone.Model.extend({
         alert("Unknown " + ok);
     },
     failed_nagios_results: function() {
-        return {};
-        //return this.get('nagios_results').clone_and_filter_failed();
+        var nagios_results = this.get('nagios_results');
+        if (!nagios_results) {
+            return [];
+        }
+        return this.get('nagios_results').clone_and_filter_failed();
     }
 });

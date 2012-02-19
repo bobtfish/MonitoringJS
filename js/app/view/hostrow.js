@@ -1,3 +1,4 @@
+// Implments the view for one host in the left hand side bar
 var HostRowView = Backbone.View.extend({
     tagName: "li",
     className: "host-row",
