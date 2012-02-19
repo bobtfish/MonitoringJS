@@ -18,6 +18,34 @@ use Plack::Loader;
 use Cwd qw/ abs_path /;
 use File::stat;
 use File::Find;
+# Load AnyEvent correctly in PP mode.
+BEGIN { $ENV{PERL_ANYEVENT_MODEL} = 'Perl' }
+use AnyEvent;
+BEGIN { AnyEvent::detect() }
+use Scalar::Util qw/ refaddr /;
+use state51::MonitoringJS::Updater;
+use Web::Hippie;
+use Devel::StackTrace::AsHTML;
+use AnyEvent::Util qw/ close_all_fds_except /;
+
+my $orig_name = $0;
+$0 = "MonitoringJS-Async";
+
+my $restart_interval = 60;
+
+my $mtime_init = stat($orig_name)->mtime;
+my $auto_restart = AnyEvent->timer(
+    after => $restart_interval,
+    interval => $restart_interval,
+    cb => sub {
+        my $mtime_now = stat($orig_name)->mtime;
+        if ($mtime_now ne $mtime_init) {
+            warn("Has been upgraded, restarting at " . time() . "\n");
+            close_all_fds_except(0, 1, 2);
+            exec $orig_name;
+        }
+    },
+);
 
 # Work out where the root is, no matter where we were run
 use constant ROOT =>
@@ -53,15 +81,6 @@ my @index = $minified_mtime > $youngest ? ("index.html") : ("maint", "app.html")
 sub file {
     Plack::App::File->new(file => File::Spec->catdir(ROOT, @_))
 }
-
-# Load AnyEvent correctly in PP mode.
-BEGIN { $ENV{PERL_ANYEVENT_MODEL} = 'Perl' }
-use AnyEvent;
-BEGIN { AnyEvent::detect() }
-use Scalar::Util qw/ refaddr /;
-use state51::MonitoringJS::Updater;
-use Web::Hippie;
-use Devel::StackTrace::AsHTML;
 
 my %update_handles;
 
@@ -104,7 +123,7 @@ my $app = builder {
             my $env = shift;
             my $interval = $env->{'hippie.args'} || 5;
             my $h = $env->{'hippie.handle'};
- 
+
             if ($env->{PATH_INFO} eq '/init') {
                 $update_handles{refaddr($h)} = $h;
             }
@@ -115,7 +134,7 @@ my $app = builder {
             else {
                 return [ '400', [ 'Content-Type' => 'text/plain' ], [ "" ] ]
                     unless $h;
- 
+
                 if ($env->{PATH_INFO} eq '/error') {
                     warn "==> disconnecting $h";
                     delete $update_handles{refaddr($h)};
