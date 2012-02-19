@@ -44,7 +44,7 @@
             <div id="content" class="span10">
             	<div id="hoststats" class="pull-right span3"></div>
             	<ul id="classeslist" class="pull-right span3"></ul>
-                <tabls id="nagios_hostgroups"></table>
+                <table class="table table-striped"><tbody id="nagios_hostgroups"></tbody></table>
             	<div id="hostdetails"></div>
             </div>
             </div>
@@ -146,13 +146,13 @@
                     <a href="#" class="<% if (isOk == 0) { %>alert-error<% } %> nagioshostgroup-detail">
     	                <i class="icon-<%= iconClass %>"></i><%= id %> (<%= hostCount %>)
     	            </a>
-    	        </tr>
-    	        <% _.each(hostObjects, function(host, index) {
-    	            %><td><%= host.get("fqdn") %></td><td><%
-    	            %><%= host.failed_nagios_results().map(function(result) { return result.get("name") + " " + result.get("plugin_output") }).join("<br />") %><%
-	                %></td><%
+    	        </td>
+    	        <% var first = 1; _.each(hostObjects, function(host, index) {
+    	            if (first) { %><td><% } else { %><tr><td><% } %><%= host.get("fqdn") %></td><%
+    	            first = 0;
+    	                %><td><%= host.failed_nagios_results().map(function(result) { return result.get("name") + " " + result.get("plugin_output") }).join("<br />") %><%
+	                %></td</tr><%
     	        }); %>
-    	     </tr>
         </script>
         <script type="text/template" id="class-list-item-template">
             <%= id %>: <%= count %>
