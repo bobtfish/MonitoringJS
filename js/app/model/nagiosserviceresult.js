@@ -15,7 +15,7 @@ var NagiosServiceResult = Backbone.Model.extend({
         return false;
     },
     parse_nagios_service_update: function(data) {
-        console.log("Update self from " + JSON.stringify(data, false, 2));
+        //console.log("Update self from " + JSON.stringify(data, false, 2));
         if (data.current_state == "OK") {
             this.set({"current_state": 0}, {silent: true});
         }
