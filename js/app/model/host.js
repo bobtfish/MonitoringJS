@@ -60,7 +60,7 @@ var Host = Backbone.Model.extend({
     isOkcompartor: function() {
         return this.isOk() + 2;
     },
-    iconClass : function() {
+    iconClass: function() {
         var ok = this.isOk();
         if (ok == 1) {
             return "ok";
@@ -75,5 +75,9 @@ var Host = Backbone.Model.extend({
             return "ban-circle";
         }
         alert("Unknown " + ok);
+    },
+    failed_nagios_results: function() {
+        return {};
+        //return this.get('nagios_results').clone_and_filter_failed();
     }
 });

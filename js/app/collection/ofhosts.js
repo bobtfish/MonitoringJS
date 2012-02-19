@@ -1,3 +1,4 @@
+// Main collection of all hosts
 var CollectionOfHosts = MyCollection.extend({
   model: Host,
   initialize: function() {

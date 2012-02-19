@@ -1,3 +1,4 @@
+// A collection of puppet classes, possesed by a host.
 var CollectionOfPuppetClasses = MyCollection.extend({
   model: PuppetClass,
   add_unless_exists: function (name) {

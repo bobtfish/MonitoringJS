@@ -1,6 +1,7 @@
+// General collection class.
 var MyCollection = Backbone.Collection.extend({
     clone_and_filter_by_iterator: function(iterator) {
-        var newob = new CollectionOfHosts();
+        var newob = new this.constructor(this.atributes);
         newob.clonedFrom = this;
         newob.reset(this.filter(iterator));
         return newob;

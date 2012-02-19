@@ -151,6 +151,9 @@
     	        <% var first = 1; _.each(hosts, function(host, index) {
     	            %><div style="<% if (first) { %> margin-left: 11px;<% } %>" class="span2<% if (!first) { %> offset2<% } %>"><%= host %></div><%
     	            first = 0;
+    	            _.each([], function(result, index) {
+    	                %><%= JSON.stringify(result, false, 2) %><%
+    	            });
 	                %></div></div><div class="row"><%
     	        }); %>
         </script>

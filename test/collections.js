@@ -1,3 +1,4 @@
+
 module("Puppet classes collection");
 
 test("Construction and Simple use", function() {
@@ -57,7 +58,12 @@ test("PuppetClasses", function() {
 
 asyncTest("Load test data", function() {
   var coll = new CollectionOfHosts();
+  var done = 0;
   coll.bind("reset", function() {
+      if (done) {
+          return;
+      }
+      done = 1;
       ok(1, "Was reset");
       var coll = this;
       $.get('/nagios-api/state', function(data) {
@@ -75,12 +81,12 @@ asyncTest("Load test data", function() {
           ok(moggy26.isOk(), 'Host moggy26 is ok');
           // Ensure to nuke the collection to avoid leaks and restart test case running at the end.
           coll = false;
+          //alert("FOO");
           start();
       });
   });
   coll.fetch();
 });
-stop();
 
 module("Nagios service results collection");
 test("Load test data", function() {
