@@ -55170,10 +55170,29 @@ $fatpacked{"state51/MonitoringJS/Updater.pm"} = <<'STATE51_MONITORINGJS_UPDATER'
               my $hdl = shift;
               my $buf = $hdl->rbuf;
               $hdl->rbuf('');
-              $self->on_read->($_) for split("\n", $buf);
+              #[1329682622] SERVICE ALERT: jobcentre;RABBIT_FD;OK;SOFT;2;20
+              my @lines = map { parse_from_line($_) } split("\n", $buf);
+              $self->on_read->($_) for @lines;
           },
       );
       return $self;
+  }
+  
+  sub parse_from_line {
+      my $line = shift;
+      my ($timestamp) = $line =~ m/\[(\d+)\]\s+SERVICE ALERT: /
+          or do { warn "Unparseable line $line\n"; return (); };
+      # FIXME - WTF do these fields mean?!?
+      my ($host, $service, $status, $soft, $number, $message)
+          = $line =~ /(\w+);(\w+);(\w+);(\w+);(\w+);(.*)$/;
+      return {
+          type => 'nagios_service_alert',
+          hostname => $host,
+          service => $service,
+          last_check => $timestamp,
+          plugin_output => $message,
+          current_state => $status,
+      };
   }
   
   1;
@@ -55445,7 +55464,7 @@ my %update_handles;
 my $production_log = "/var/log/nagios3/nagios.log";
 my $nagios_log_file = -r $production_log
     ? $production_log
-    : File::Spec->catpath(ROOT, "test", "nagios.log");
+    : File::Spec->catpath(ROOT, "testdata", "nagios.log");
 
 my $updater = state51::MonitoringJS::Updater->new(
     filename => $nagios_log_file,
