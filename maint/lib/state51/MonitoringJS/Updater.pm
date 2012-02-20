@@ -19,26 +19,13 @@ has on_read => (
 sub run {
     my $self = shift;
     $self->_bind_hdl;
-    $self->{orig_size} = -s $self->filename;
-    $self->{reopen_timer} = AnyEvent->timer(
-        after => 5,
-        interval => 5,
-        cb => sub {
-            my $size = -s $self->filename;
-            if ($size < $self->{orig_size}) {
-                $self->_bind_hdl;
-                warn("Results file truncated, restarting tail");
-            }
-            $self->{orig_size} = $size;
-        },
-    );
     return $self;
 }
 
 sub _bind_hdl {
     my $self = shift;
     my $r;
-    my $child_pid = open($r, "-|", "tail", "-F", $self->filename)
+    my $child_pid = open($r, "-|", "tail", "-f", $self->filename)
        // die "can't fork: $!";
     fh_nonblocking $r, 1;
     $self->{hdl} = AnyEvent::Handle->new(

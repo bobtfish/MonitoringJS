@@ -55160,6 +55160,12 @@ $fatpacked{"state51/MonitoringJS/Updater.pm"} = <<'STATE51_MONITORINGJS_UPDATER'
   
   sub run {
       my $self = shift;
+      $self->_bind_hdl;
+      return $self;
+  }
+  
+  sub _bind_hdl {
+      my $self = shift;
       my $r;
       my $child_pid = open($r, "-|", "tail", "-f", $self->filename)
          // die "can't fork: $!";
@@ -55174,7 +55180,6 @@ $fatpacked{"state51/MonitoringJS/Updater.pm"} = <<'STATE51_MONITORINGJS_UPDATER'
               $self->on_read->($_) for @lines;
           },
       );
-      return $self;
   }
   
   sub parse_from_line {
