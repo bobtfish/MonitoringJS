@@ -21,7 +21,6 @@ var ourHippie = function (event_router) {
         );
         object.hippie = hippie;
         object.connecting_timeout = setTimeout(function () {
-            alert("Connecting timeout");
             if (!object.connected && object.connecting_timeout && !object.new_hippie_timeout) {
                 console.log("Hippie: Connection timed out, restarting connect");
                 object.connected = false;
