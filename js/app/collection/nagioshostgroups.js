@@ -17,8 +17,6 @@ var CollectionOfNagiosHostGroups = MyCollection.extend({
     },
     url: '/puppet/nagios_host_groups/',
     comparator: function(ob) {
-        if (!ob) { return; };
-        console.trace();
         return ob.isOkcompartor() + ob.get("id");
     },
 });

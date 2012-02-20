@@ -4,9 +4,6 @@ var CollectionOfNagiosResults = MyCollection.extend({
       return this.all(function(val){ return val.isOk() });
   },
   comparator: function(ob) {
-      if (!ob) {
-          return;
-      }
       return ob.isOk() + ob.get("name");
   },
   clone_and_filter_failed: function() {

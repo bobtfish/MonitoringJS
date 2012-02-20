@@ -79,13 +79,13 @@ DUI.create('Stream', {
                 this.req.onreadystatechange = function() {
                     throw new Error('Send it as multipart/mixed, genius.');
                     this.req.onreadystatechange = function() {};
-                }.bind(this);
+                }.stream_bind(this);
                 
             } else {
                 this.boundary = '--' + contentTypeHeader.split('"')[1];
                 
                 //Start pinging
-                this.pong = window.setInterval(this.ping.bind(this), 15);
+                this.pong = window.setInterval(this.ping.stream_bind(this), 15);
             }
         }
         
@@ -244,7 +244,7 @@ DUI.create('Stream', {
 })(jQuery);
 
 //Yep, I still use this. So what? You wanna fight about it?
-Function.prototype.bind = function() {
+Function.prototype.stream_bind = function() {
     var __method = this, object = arguments[0], args = [];
 
     for(i = 1; i < arguments.length; i++)

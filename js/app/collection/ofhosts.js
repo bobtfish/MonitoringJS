@@ -33,9 +33,6 @@ var CollectionOfHosts = MyCollection.extend({
       return this.clone_and_filter_by_property("classes", classname);
   },
   comparator: function(ob) {
-      if (!ob) {
-          return;
-      }
       return ob.isOkcompartor() + ob.get("fqdn_sortable");
   },
   url: '/puppet/nodes/',
