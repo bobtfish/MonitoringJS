@@ -55417,6 +55417,7 @@ use Plack::Loader;
 use Cwd qw/ abs_path /;
 use File::stat;
 use File::Find;
+use Try::Tiny qw/ try catch /;
 # Load AnyEvent correctly in PP mode.
 BEGIN { $ENV{PERL_ANYEVENT_MODEL} = 'Perl' }
 use AnyEvent;
@@ -55501,7 +55502,15 @@ my $updater = state51::MonitoringJS::Updater->new(
     filename => $nagios_log_file,
     on_read => sub {
         my $line = shift;
-        $_->send_msg($line) for values %update_handles;
+        foreach my $handle (values %update_handles) {
+            try {
+                $handle->send_msg($line);
+            }
+            catch {
+                warn("Failed to send to handle $handle - forcing disconnect: $_\n");
+                delete $update_handles{refaddr($handle)};
+            };
+        }
     },
 )->run;
 
