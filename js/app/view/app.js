@@ -9,6 +9,9 @@ var AppView = Backbone.View.extend({
     initialize: function() {
         var eventRouter = _.clone(Backbone.Events)
         var hippie = ourHippie(eventRouter);
+        this.eventRouter = eventRouter;
+        this.hippie = hippie;
+
         var hostsCollection = new CollectionOfHosts;
         hostsCollection.add_event_router(eventRouter);
         this.hostsCollection = hostsCollection;
