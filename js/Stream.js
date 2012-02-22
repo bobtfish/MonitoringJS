@@ -73,12 +73,23 @@ DUI.create('Stream', {
     
     readyStateNanny: function() {
         if(this.req.readyState == 3 && this.pong == null) {
+            // XXX - There may not be a Content-Type header?
             var contentTypeHeader = this.req.getResponseHeader("Content-Type");
             
             if(contentTypeHeader.indexOf("multipart/mixed") == -1) {
                 this.req.onreadystatechange = function() {
-                    throw new Error('Send it as multipart/mixed, genius.');
+                    // XXX - t0m fixed async exception here to instead
+                    //       be orderly close down so we can retry having
+                    //       not crapped one.
                     this.req.onreadystatechange = function() {};
+                    console.log("Something went wrong with request, didn't get multipart/mixed");
+                    clearInterval(this.pong);
+                    if(typeof this.listeners.complete != 'undefined') {
+                        var _this = this;
+                            $.each(this.listeners.complete, function() {
+                            this.apply(_this);
+                        });
+                    }
                 }.stream_bind(this);
                 
             } else {
