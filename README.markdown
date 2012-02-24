@@ -1,6 +1,6 @@
-= MonitoringJS
+# MonitoringJS
 
-== Introduction
+## Introduction
 
 This is a little sketch of a new monitoring front page tool.
 
@@ -10,7 +10,7 @@ and present it in a nice (and integrated) format.
 This project should be considered PRE ALPHA. Everything is liable to
 change.
 
-== Quick test
+## Quick test
 
 Check out the project
 
@@ -18,9 +18,9 @@ Run ./server
 
 Browse to http://localhost:5000/
 
-== Production install
+## Production install
 
-=== Dependencies
+### Dependencies
 
 You need to be running mcollective, and publishing registration data into
 mongodb (http://projects.puppetlabs.com/projects/mcollective-plugins/wiki/AgentRegistrationMongoDB).
@@ -54,13 +54,13 @@ the above things like the following (for apache):
     ProxyPass        /_hippie/ http://127.0.0.1:5000/_hippie/
     ProxyPassReverse /_hippie/ http://127.0.0.1:5000/_hippie/
 
-=== Expected collections
+### Expected collections
 
 We expect a hostgroups collection of metadata from puppet..
 
 XXX - FIXME with details!
 
-== Distribution info
+## Distribution info
 
 The entire project (excluding icon files) is inlined into index.html
 in the root directory for speed of loading.
@@ -77,11 +77,11 @@ source located in maint/app.html, and the un-minified Javascript in the js/ dire
 To re-build the inlined versions of the application, see instructions in the maint/
 directory.
 
-= AUTHOR
+# AUTHOR
 
 Tomas Doran (t0m) <bobtfish@bobtfish.net>
 
-= COPYRIGHT AND LICENSE
+# COPYRIGHT AND LICENSE
 
 The code with specific copyright and license inside files is copyright
 and licensed to those authors.
