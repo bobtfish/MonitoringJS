@@ -18,7 +18,9 @@ Run ./server
 
 Browse to http://localhost:5000/
 
-== Production install - dependencies
+== Production install
+
+=== Dependencies
 
 You need to be running mcollective, and publishing registration data into
 mongodb (http://projects.puppetlabs.com/projects/mcollective-plugins/wiki/AgentRegistrationMongoDB).
@@ -51,6 +53,12 @@ the above things like the following (for apache):
     # Adaptor to do MXHR/Websocket
     ProxyPass        /_hippie/ http://127.0.0.1:5000/_hippie/
     ProxyPassReverse /_hippie/ http://127.0.0.1:5000/_hippie/
+
+=== Expected collections
+
+We expect a hostgroups collection of metadata from puppet..
+
+XXX - FIXME with details!
 
 == Distribution info
 
