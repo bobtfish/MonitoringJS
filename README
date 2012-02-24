@@ -7,6 +7,9 @@ This is a little sketch of a new monitoring front page tool.
 The idea is to use all my pre-existing data from mcollective and nagios,
 and present it in a nice (and integrated) format.
 
+This project should be considered PRE ALPHA. Everything is liable to
+change.
+
 == Quick test
 
 Check out the project
@@ -66,3 +69,15 @@ source located in maint/app.html, and the un-minified Javascript in the js/ dire
 To re-build the inlined versions of the application, see instructions in the maint/
 directory.
 
+= AUTHOR
+
+Tomas Doran (t0m) <bobtfish@bobtfish.net>
+
+= COPYRIGHT AND LICENSE
+
+The code with specific copyright and license inside files is copyright
+and licensed to those authors.
+
+All other code is copyright Tomas Doran, and licensed as per perl 5
+(choice of GPLv2 or artistic). If this is a problem for you, please email
+me as I would have no objection to re-licensing in a less restrictive way.
