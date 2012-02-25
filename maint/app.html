@@ -20,13 +20,11 @@
         <div class="navbar">
             <div class="navbar-inner">
                 <div class="container">
-                    <ul class="nav">
-                        <li><a href="/cgi-bin/nagios3/status.cgi?servicestatustypes=28&amp;hoststatustypes=15">Nagios</a></li>
-                    	<li><a href="/munin/">Munin</a></li>
-                    	<li><a href="http://dashboard.state51.co.uk:3000">Puppet dashboard</a></li>
-                    	<li><a href="http://observer.playlouder.com/">Observer</a></li>
-                    	<li><a href="http://monitor.state51.co.uk/cgi-bin/smokeping.cgi">Smokeping</a></li>
+                    <ul class="nav" id="top-bar-list">
                     </ul>
+                    <script type="text/template" id="top-bar-link">
+                        <a href="<%= href %>"><%= name %></a>
+                    </script>
                 </div>
             </div>
         </div>
@@ -170,6 +168,8 @@
         <script src="/js/app/hippie.js" type="text/javascript"></script>
         <script src="/js/app/collection.js" type="text/javascript"></script>
         <script src="/js/app/view/collection.js" type="text/javascript"></script>
+        <script src="/js/app/model/topbarlink.js" type="text/javascript"></script>
+        <script src="/js/app/collection/topbarlinks.js" type="text/javascript"></script>
         <script src="/js/app/model/nagioshostgroup.js" type="text/javascript"></script>
         <script src="/js/app/collection/nagioshostgroups.js" type="text/javascript"></script>
         <script src="/js/app/model/puppetclass.js" type="text/javascript"></script>
@@ -178,6 +178,8 @@
         <script src="/js/app/collection/nagiosresults.js" type="text/javascript"></script>
         <script src="/js/app/model/host.js" type="text/javascript"></script>
         <script src="/js/app/collection/ofhosts.js" type="text/javascript"></script>
+        <script src="/js/app/view/topbarlink.js" type="text/javascript"></script>
+        <script src="/js/app/view/topbarlinkslist.js" type="text/javascript"></script>
         <script src="/js/app/view/nagioshostgroup.js" type="text/javascript"></script>
         <script src="/js/app/view/nagioshostgrouplist.js" type="text/javascript"></script>
         <script src="/js/app/view/hostrow.js" type="text/javascript"></script>
