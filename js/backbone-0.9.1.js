@@ -687,6 +687,9 @@
       } else if (!model.collection) {
         model.collection = this;
       }
+      if (this.sync && !model.sync) {
+          model.sync = this.sync;
+      }
       return model;
     },
 

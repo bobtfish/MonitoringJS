@@ -1,3 +1,4 @@
 var TopBarLinks = MyCollection.extend({
-    model: TopBarLink
+    model: TopBarLink,
+    localStorage: new Store("TopBarLinks")
 });
