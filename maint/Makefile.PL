@@ -52,7 +52,7 @@ $(FIRST_MAKEFILE) : Makefile.PL
 }.qq{\t}.q{$(FALSE)
 
 }.qq{
-fatpacker.trace : test.psgi
+fatpacker.trace : test.psgi lib/state51/MonitoringJS/*.pm
 \t\$(NOECHO) perl -MCwd -e1
 \t\$(NOECHO) perl -MPlack -e1
 \t\$(NOECHO) perl -e'use App::FatPacker ();'
