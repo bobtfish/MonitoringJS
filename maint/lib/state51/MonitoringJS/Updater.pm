@@ -25,7 +25,7 @@ sub run {
 sub _bind_hdl {
     my $self = shift;
     my $r;
-    my $child_pid = open($r, "-|", "tail", "-f", $self->filename)
+    my $child_pid = open($r, "-|", "tail", "-F", $self->filename)
        // die "can't fork: $!";
     fh_nonblocking $r, 1;
     $self->{hdl} = AnyEvent::Handle->new(
