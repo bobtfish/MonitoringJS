@@ -1,4 +1,5 @@
 var TopbarLinksListView = CollectionView.extend({
     el: $("#top-bar-list"),
-    elementView: TopBarLinkView
+    elementView: TopBarLinkView,
+    localStorageCacheName: "TopbarLinksListViewCache"
 });

@@ -118,6 +118,7 @@ my $app = builder {
     mount "/puppet/nodes/"              => file(qw/testdata mongodb_nodes.json/);
     mount "/puppet/nagios_host_groups/" => file(qw/testdata mongodb_nagios_host_groups.json/);
     mount "/nagios-api/state"           => file(qw/testdata nagios-api-state.json/);
+    mount "/topbar.json"                => file(qw/testdata topbar.json/);
     mount "/"                           => file(@index);
     mount "/dev"                        => file("maint", "app.html");
     mount "/js"                         => Plack::App::File->new(root => File::Spec->catdir(ROOT, "js"));

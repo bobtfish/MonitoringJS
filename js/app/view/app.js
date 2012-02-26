@@ -14,7 +14,7 @@ var AppView = Backbone.View.extend({
 
         var topbarLinksCollection = new TopBarLinks;
         this.topbarLinksCollection = topbarLinksCollection;
-        topbarLinksCollection.sync = Backbone.localSync;
+        //topbarLinksCollection.sync = Backbone.localCachedSync;
 
         var links = [
             {"href":"/cgi-bin/nagios3/status.cgi?servicestatustypes=28&amp;hoststatustypes=15","name": "Nagios","priority":"1"},
@@ -23,14 +23,15 @@ var AppView = Backbone.View.extend({
             {"href":"http://observer.playlouder.com/","name":"Observer","priotiry":"4"},
             {"href":"http://monitor.state51.co.uk/cgi-bin/smokeping.cg","name":"Smokeping","priotiry":"5"},
         ];
-        /*_.each(links, function(thing) {
-            topbarLinksCollection.create(thing);
-        });*/
-        topbarLinksCollection.fetch();
+        //_.each(links, function(thing) {
+        //    topbarLinksCollection.add(thing);
+        //});
         this.topbarLinksListView = new TopbarLinksListView({
             collection: this.topbarLinksCollection
         });
         this.topbarLinksListView.addAll();
+        topbarLinksCollection.fetch();
+        //topbarLinksCollection.reset();
 
         var hostsCollection = new CollectionOfHosts;
         hostsCollection.add_event_router(eventRouter);

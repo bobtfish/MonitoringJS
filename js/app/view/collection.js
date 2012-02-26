@@ -28,6 +28,12 @@ var CollectionView = Backbone.View.extend({
         this.collection.on('add',   this.addOne, this);
         this.collection.on('reset', this.addAll, this);
         this.collection.on('all',   this.render, this);
+        if (this.localStorageCacheName) {
+            var cached_body = localStorage.getItem(this.localStorageCacheName);
+            if (cached_body) {
+                $(this.el).html(cached_body);
+            }
+        }
     },
     addOne: function(ob) {
       var params = _.clone(this.elementViewParameters);
@@ -36,8 +42,28 @@ var CollectionView = Backbone.View.extend({
       $(this.el).append(view.render().el);
     },
     addAll: function() {
-        $(this.el).empty();
+        var el = $(this.el);
+        if (this.collection.length <= 0) {
+            return;
+        }
+        var newel = el.clone();
+        newel.empty();
+        this.el = newel[0];
+        this.$el = newel;
         this.collection.each(this.addOne, this);
+        if (this.localStorageCacheName) {
+            if (newel.html() != el.html()) {
+                localStorage.setItem(this.localStorageCacheName, newel.html());
+                el.replaceWith(newel);
+            }
+            else {
+                this.el = el[0];
+                this.$el = el;
+            }
+        }
+        else {
+            el.replaceWith(newel);
+        }
     },
     // FIXME!?
     render: function() { }
