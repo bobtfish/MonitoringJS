@@ -140,7 +140,7 @@
             <%= host.get("lastseen_string") %>
         </script>
         <script type="text/template" id="nagioshostgroup-item-template">
-                <tr><td class="span2" rowspan="<%= _.filter(hostObjects, function(host) { return host.failed_nagios_results().length > 0 }).length || 1 %>">
+                <tr><td id="hostgroup_<%= id %>" class="span2" rowspan="<%= _.filter(hostObjects, function(host) { return host.failed_nagios_results().length > 0 }).length || 1 %>">
                     <a href="#" class="<% if (isOk == 0) { %>alert-error<% } %> nagioshostgroup-detail">
     	                <i class="icon-<%= iconClass %>"></i><%= id %> (<%= hostCount %>)
     	            </a>
