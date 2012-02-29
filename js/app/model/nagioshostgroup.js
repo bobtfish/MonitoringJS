@@ -1,18 +1,19 @@
 /* Implments a nagios host group
 
    Properties:
+       id - The name of the group
        hosts - list of fqdns
-       
+
     Methods:
         hosts - returns an array of host objects, looked up from the hosts collection
                 by fqdn
-    
+
         isOk - Returns the nagios status of a host
                FIXME - Code meanings here?
                -2 = unknown
                1 = broken
                0 = ok
-               
+
 */
 var NagiosHostGroup = Backbone.Model.extend({
     hosts: function() {
