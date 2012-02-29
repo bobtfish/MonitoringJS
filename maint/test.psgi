@@ -7,7 +7,7 @@ use warnings;
 use FindBin qw/$Bin/;
 use lib "$Bin/lib";
 use File::Spec;
-
+BEGIN { $ENV{MOO_XS_DISABLE} = 1 } # No bleeding XS please!
 use Plack::Runner;
 use Plack::App::File;
 use Plack::Builder;

@@ -5089,7 +5089,7 @@ $fatpacked{"HTTP/Headers/Util.pm"} = <<'HTTP_HEADERS_UTIL';
   use strict;
   use vars qw($VERSION @ISA @EXPORT_OK);
   
-  $VERSION = "6.00";
+  $VERSION = "6.03";
   
   require Exporter;
   @ISA=qw(Exporter);
@@ -5239,7 +5239,7 @@ $fatpacked{"HTTP/Headers/Util.pm"} = <<'HTTP_HEADERS_UTIL';
   Each I<header> is represented by an anonymous array of key/value
   pairs.  The keys will be all be forced to lower case.
   The value for a simple token (not part of a parameter) is C<undef>.
-  Syntactically incorrect headers will not necessary be parsed as you
+  Syntactically incorrect headers will not necessarily be parsed as you
   would want.
   
   This is easier to describe with some examples:
@@ -5290,7 +5290,7 @@ $fatpacked{"HTTP/Message.pm"} = <<'HTTP_MESSAGE';
   
   use strict;
   use vars qw($VERSION $AUTOLOAD);
-  $VERSION = "6.02";
+  $VERSION = "6.03";
   
   require HTTP::Headers;
   require Carp;
@@ -5595,7 +5595,7 @@ $fatpacked{"HTTP/Message.pm"} = <<'HTTP_MESSAGE';
   		    $content_ref = \$output;
   		    $content_ref_iscopy++;
   		}
-  		elsif ($ce eq "x-bzip2") {
+  		elsif ($ce eq "x-bzip2" or $ce eq "bzip2") {
   		    require IO::Uncompress::Bunzip2;
   		    my $output;
   		    IO::Uncompress::Bunzip2::bunzip2($content_ref, \$output, Transparent => 0)
@@ -6269,7 +6269,7 @@ $fatpacked{"HTTP/Message.pm"} = <<'HTTP_MESSAGE';
   If the content type is C<message/http>, then the return value will be
   either an C<HTTP::Request> or an C<HTTP::Response> object.
   
-  If an @parts argument is given, then the content of the message will be
+  If a @parts argument is given, then the content of the message will be
   modified. The array reference form is provided so that an empty list
   can be provided.  The @parts array should contain C<HTTP::Message>
   objects.  The @parts objects are owned by $mess after this call and
@@ -6925,7 +6925,7 @@ $fatpacked{"HTTP/Request/Common.pm"} = <<'HTTP_REQUEST_COMMON';
   require HTTP::Request;
   use Carp();
   
-  $VERSION = "6.00";
+  $VERSION = "6.03";
   
   my $CRLF = "\015\012";   # "\r\n" is not portable
   
@@ -6993,6 +6993,9 @@ $fatpacked{"HTTP/Request/Common.pm"} = <<'HTTP_REQUEST_COMMON';
   	    my $url = URI->new('http:');
   	    $url->query_form(ref($content) eq "HASH" ? %$content : @$content);
   	    $content = $url->query;
+  
+  	    # HTML/4.01 says that line breaks are represented as "CR LF" pairs (i.e., `%0D%0A')
+  	    $content =~ s/(?<!%0D)%0A/%0D%0A/g;
   	}
       }
   
@@ -7301,7 +7304,7 @@ $fatpacked{"HTTP/Request/Common.pm"} = <<'HTTP_REQUEST_COMMON';
   The $form_ref argument can be used to pass key/value pairs for the
   form content.  By default we will initialize a request using the
   C<application/x-www-form-urlencoded> content type.  This means that
-  you can emulate a HTML E<lt>form> POSTing like this:
+  you can emulate an HTML E<lt>form> POSTing like this:
   
     POST 'http://www.perl.org/survey.cgi',
          [ name   => 'Gisle Aas',
@@ -7311,7 +7314,7 @@ $fatpacked{"HTTP/Request/Common.pm"} = <<'HTTP_REQUEST_COMMON';
            perc   => '3%',
          ];
   
-  This will create a HTTP::Request object that looks like this:
+  This will create an HTTP::Request object that looks like this:
   
     POST http://www.perl.org/survey.cgi
     Content-Length: 66
@@ -7357,7 +7360,7 @@ $fatpacked{"HTTP/Request/Common.pm"} = <<'HTTP_REQUEST_COMMON';
                            init   => ["$ENV{HOME}/.profile"],
                          ]
   
-  This will create a HTTP::Request object that almost looks this (the
+  This will create an HTTP::Request object that almost looks this (the
   boundary and the content of your F<~/.profile> is likely to be
   different):
   
@@ -7428,7 +7431,7 @@ $fatpacked{"HTTP/Response.pm"} = <<'HTTP_RESPONSE';
   
   require HTTP::Message;
   @ISA = qw(HTTP::Message);
-  $VERSION = "6.01";
+  $VERSION = "6.03";
   
   use strict;
   use HTTP::Status ();
@@ -7818,7 +7821,7 @@ $fatpacked{"HTTP/Response.pm"} = <<'HTTP_RESPONSE';
   =item $r->code( $code )
   
   This is used to get/set the code attribute.  The code is a 3 digit
-  number that encode the overall outcome of a HTTP response.  The
+  number that encode the overall outcome of an HTTP response.  The
   C<HTTP::Status> module provide constants that provide mnemonic names
   for the code attribute.
   
@@ -8422,7 +8425,7 @@ $fatpacked{"HTTP/Status.pm"} = <<'HTTP_STATUS';
   @ISA = qw(Exporter);
   @EXPORT = qw(is_info is_success is_redirect is_error status_message);
   @EXPORT_OK = qw(is_client_error is_server_error);
-  $VERSION = "6.00";
+  $VERSION = "6.03";
   
   # Note also addition of mnemonics to @EXPORT below
   
@@ -8441,6 +8444,7 @@ $fatpacked{"HTTP/Status.pm"} = <<'HTTP_STATUS';
       205 => 'Reset Content',
       206 => 'Partial Content',
       207 => 'Multi-Status',                    # RFC 2518 (WebDAV)
+      208 => 'Already Reported',		      # RFC 5842
       300 => 'Multiple Choices',
       301 => 'Moved Permanently',
       302 => 'Found',
@@ -8466,11 +8470,15 @@ $fatpacked{"HTTP/Status.pm"} = <<'HTTP_STATUS';
       415 => 'Unsupported Media Type',
       416 => 'Request Range Not Satisfiable',
       417 => 'Expectation Failed',
+      418 => 'I\'m a teapot',		      # RFC 2324
       422 => 'Unprocessable Entity',            # RFC 2518 (WebDAV)
       423 => 'Locked',                          # RFC 2518 (WebDAV)
       424 => 'Failed Dependency',               # RFC 2518 (WebDAV)
       425 => 'No code',                         # WebDAV Advanced Collections
       426 => 'Upgrade Required',                # RFC 2817
+      428 => 'Precondition Required',
+      429 => 'Too Many Requests',
+      431 => 'Request Header Fields Too Large',
       449 => 'Retry with',                      # unofficial Microsoft
       500 => 'Internal Server Error',
       501 => 'Not Implemented',
@@ -8482,12 +8490,14 @@ $fatpacked{"HTTP/Status.pm"} = <<'HTTP_STATUS';
       507 => 'Insufficient Storage',            # RFC 2518 (WebDAV)
       509 => 'Bandwidth Limit Exceeded',        # unofficial
       510 => 'Not Extended',                    # RFC 2774
+      511 => 'Network Authentication Required',
   );
   
   my $mnemonicCode = '';
   my ($code, $message);
   while (($code, $message) = each %StatusCode) {
       # create mnemonic subroutines
+      $message =~ s/I'm/I am/;
       $message =~ tr/a-z \-/A-Z__/;
       $mnemonicCode .= "sub HTTP_$message () { $code }\n";
       $mnemonicCode .= "*RC_$message = \\&HTTP_$message;\n";  # legacy
@@ -8541,7 +8551,7 @@ $fatpacked{"HTTP/Status.pm"} = <<'HTTP_STATUS';
   
   I<HTTP::Status> is a library of routines for defining and
   classifying HTTP status codes for libwww-perl.  Status codes are
-  used to encode the overall outcome of a HTTP response message.  Codes
+  used to encode the overall outcome of an HTTP response message.  Codes
   correspond to those defined in RFC 2616 and RFC 2518.
   
   =head1 CONSTANTS
@@ -8562,6 +8572,7 @@ $fatpacked{"HTTP/Status.pm"} = <<'HTTP_STATUS';
      HTTP_RESET_CONTENT                   (205)
      HTTP_PARTIAL_CONTENT                 (206)
      HTTP_MULTI_STATUS                    (207)
+     HTTP_ALREADY_REPORTED		(208)
   
      HTTP_MULTIPLE_CHOICES                (300)
      HTTP_MOVED_PERMANENTLY               (301)
@@ -8589,11 +8600,15 @@ $fatpacked{"HTTP/Status.pm"} = <<'HTTP_STATUS';
      HTTP_UNSUPPORTED_MEDIA_TYPE          (415)
      HTTP_REQUEST_RANGE_NOT_SATISFIABLE   (416)
      HTTP_EXPECTATION_FAILED              (417)
+     HTTP_I_AM_A_TEAPOT			(418)
      HTTP_UNPROCESSABLE_ENTITY            (422)
      HTTP_LOCKED                          (423)
      HTTP_FAILED_DEPENDENCY               (424)
      HTTP_NO_CODE                         (425)
      HTTP_UPGRADE_REQUIRED                (426)
+     HTTP_PRECONDITION_REQUIRED		(428)
+     HTTP_TOO_MANY_REQUESTS		(429)
+     HTTP_REQUEST_HEADER_FIELDS_TOO_LARGE (431)
      HTTP_RETRY_WITH                      (449)
   
      HTTP_INTERNAL_SERVER_ERROR           (500)
@@ -8606,6 +8621,7 @@ $fatpacked{"HTTP/Status.pm"} = <<'HTTP_STATUS';
      HTTP_INSUFFICIENT_STORAGE            (507)
      HTTP_BANDWIDTH_LIMIT_EXCEEDED        (509)
      HTTP_NOT_EXTENDED                    (510)
+     HTTP_NETWORK_AUTHENTICATION_REQUIRED (511)
   
   =head1 FUNCTIONS
   
@@ -8640,11 +8656,11 @@ $fatpacked{"HTTP/Status.pm"} = <<'HTTP_STATUS';
   =item is_error( $code )
   
   Return TRUE if C<$code> is an I<Error> status code (4xx or 5xx).  The function
-  return TRUE for both client error or a server error status codes.
+  returns TRUE for both client and server error status codes.
   
   =item is_client_error( $code )
   
-  Return TRUE if C<$code> is an I<Client Error> status code (4xx). This class
+  Return TRUE if C<$code> is a I<Client Error> status code (4xx). This class
   of status code is intended for cases in which the client seems to have
   erred.
   
@@ -8652,7 +8668,7 @@ $fatpacked{"HTTP/Status.pm"} = <<'HTTP_STATUS';
   
   =item is_server_error( $code )
   
-  Return TRUE if C<$code> is an I<Server Error> status code (5xx). This class
+  Return TRUE if C<$code> is a I<Server Error> status code (5xx). This class
   of status codes is intended for cases in which the server is aware
   that it has erred or is incapable of performing the request.
   
@@ -8663,7 +8679,7 @@ $fatpacked{"HTTP/Status.pm"} = <<'HTTP_STATUS';
   =head1 BUGS
   
   For legacy reasons all the C<HTTP_> constants are exported by default
-  with the prefix C<RC_>.  It's recommended to use explict imports and
+  with the prefix C<RC_>.  It's recommended to use explicit imports and
   the C<:constants> tag instead of relying on this.
 HTTP_STATUS
 
@@ -55408,7 +55424,7 @@ use warnings;
 use FindBin qw/$Bin/;
 use lib "$Bin/lib";
 use File::Spec;
-
+BEGIN { $ENV{MOO_XS_DISABLE} = 1 } # No bleeding XS please!
 use Plack::Runner;
 use Plack::App::File;
 use Plack::Builder;
@@ -55519,6 +55535,7 @@ my $app = builder {
     mount "/puppet/nodes/"              => file(qw/testdata mongodb_nodes.json/);
     mount "/puppet/nagios_host_groups/" => file(qw/testdata mongodb_nagios_host_groups.json/);
     mount "/nagios-api/state"           => file(qw/testdata nagios-api-state.json/);
+    mount "/topbar.json"                => file(qw/testdata topbar.json/);
     mount "/"                           => file(@index);
     mount "/dev"                        => file("maint", "app.html");
     mount "/js"                         => Plack::App::File->new(root => File::Spec->catdir(ROOT, "js"));
