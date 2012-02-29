@@ -39,6 +39,10 @@ var CollectionOfHosts = MyCollection.extend({
   add_event_router: function (eventRouter) {
       this.eventRouter = eventRouter;
       eventRouter.on("hippie:message:nagios_service_alert", this.nagios_service_update, this);
+      this.on("change", function(host) { 
+          //alert("Thing changed " + JSON.stringify(host.get("fqdn"), false, 2) )
+          eventRouter.trigger("host_status_change", host.get("fqdn"));
+      }, this);
   },
   nagios_service_update: function(msg) {
       //console.log("CollectionOfHosts: got message: " + JSON.stringify(msg, false, 2));

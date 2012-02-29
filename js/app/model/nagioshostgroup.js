@@ -16,6 +16,14 @@
 
 */
 var NagiosHostGroup = Backbone.Model.extend({
+    hostStatusChange: function(fqdn) {
+        if (this.containsHost(fqdn)) {
+            this.trigger("change");
+        }
+    },
+    containsHost: function(fqdn) {
+        return _.any(this.get("hosts"), function(that) { return that == fqdn });
+    },
     hosts: function() {
         return _.map(this.get("hosts"), function(fqdn) {
             return this.collection.hostsCollection.get(fqdn);

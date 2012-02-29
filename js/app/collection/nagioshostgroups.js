@@ -45,4 +45,13 @@ var CollectionOfNagiosHostGroups = MyCollection.extend({
     comparator: function(ob) {
         return ob.isOkcompartor() + ob.get("id");
     },
+    add_event_router: function(eventRouter) {
+        eventRouter.on("host_status_change", function(fqdn) {
+            //alert("Got host status change for " + fqdn);
+            this.forEach(function(group) {
+                group.hostStatusChange(fqdn);
+                //alert(group.get("id") + " contains " + fqdn + " is " )
+            });
+        }, this);
+    }
 });

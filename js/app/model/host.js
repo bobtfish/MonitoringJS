@@ -1,7 +1,7 @@
 var Host = Backbone.Model.extend({
     initialize: function () {
         delete this.attributes["agentlist"];
-        delete this.attributes["extra"];
+        delete this.attributes[":extra"];
         this.attributes["fqdn_sortable"] = this.attributes["facts"]["fqdn"].split('.').reverse().join('.');
         var me = this;
         $.each(["ps", "kernel", "title", "facterversion", "hardwareisa", "rubysitedir", "rubyversion", "lsbrelease",
@@ -29,6 +29,8 @@ var Host = Backbone.Model.extend({
     nagios_change: function(collection, model) {
         //console.log("Host " + this.get("fqdn") + " got changed nagios state " + this.isOk());
         this.trigger("change", this);
+        // XXX - Do this, but verify this is really a state change first!
+        //this.collection.sort();
     },
     parse_nagios_service_update: function(update) {
         //console.log("Host " + this.get("id") + " got nagios update " + JSON.stringify(update, false, 2));
