@@ -33,7 +33,6 @@ sub _bind_hdl {
         cb => sub {
             my $data = parse_from_line(scalar <$r>)
                 or return;
-            warn $data;
             $self->on_read->($data);
         },
     );

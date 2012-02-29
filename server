@@ -55185,15 +55185,13 @@ $fatpacked{"state51/MonitoringJS/Updater.pm"} = <<'STATE51_MONITORINGJS_UPDATER'
       my $r;
       my $child_pid = open($r, "-|", "tail", "-F", $self->filename)
          // die "can't fork: $!";
-      fh_nonblocking $r, 1;
-      $self->{hdl} = AnyEvent::Handle->new(
+      $self->{hdl} = AnyEvent->io (
           fh => $r,
-          on_read => sub {
-              my $hdl = shift;
-              my $buf = $hdl->rbuf;
-              $hdl->rbuf('');
-              my @lines = map { parse_from_line($_) } split("\n", $buf);
-              $self->on_read->($_) for @lines;
+          poll => "r",
+          cb => sub {
+              my $data = parse_from_line(scalar <$r>)
+                  or return;
+              $self->on_read->($data);
           },
       );
   }
