@@ -7,6 +7,11 @@ var Hippie = function(host, arg, on_connect, on_disconnect, on_event, path) {
     this.path = path ? path : '';
     this.detect();
 
+    // t0m hack to turn off WebSocket
+    if (this.mode == 'ws') {
+        this.mode = 'mxhr';
+    }
+
     if (!host.match('://')) {// protcol not provided
         host = document.location.protocol.replace(/http/, 'ws') + '//' + host;
     }
