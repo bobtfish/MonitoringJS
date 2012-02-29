@@ -140,18 +140,22 @@
             <%= host.get("lastseen_string") %>
         </script>
         <script type="text/template" id="nagioshostgroup-item-template">
-                <tr><td id="hostgroup_<%= id %>" class="span2" rowspan="<%= _.filter(hostObjects, function(host) { return host.failed_nagios_results().length > 0 }).length || 1 %>">
+                <td id="hostgroup_<%= id %>" class="span2" rowspan="<%= _.filter(hostObjects, function(host) { return host.failed_nagios_results().length > 0 }).length || 1 %>">
                     <a href="#" class="<% if (isOk == 0) { %>alert-error<% } %> nagioshostgroup-detail">
     	                <i class="icon-<%= iconClass %>"></i><%= id %> (<%= hostCount %>)
     	            </a>
     	        </td>
+        </script>
+        <script type="text/template" id="nagioshostgroup-item-host-template">
     	        <% var first = 1; var did_some = 0; _.each(_.filter(hostObjects, function(host) { return host.failed_nagios_results().length > 0 }), function(host, index) {
     	            did_some = 1;
     	            if (first) { %><td class="span2"><% } else { %><tr><td><% } %><%= host.get("fqdn") %></td><%
     	            first = 0;
     	                %><td class="span2"><%= host.failed_nagios_results().map(function(result) { return result.get("name") + " " + result.get("plugin_output") }).join("<br />") %><%
-	                %></td</tr><%
+	                %></td><%
     	        }); if (!did_some) { %><td class="span2">&nbsp;</td><td class="span2">&nbsp;</td><% } %>
+        </script>
+        <script type="text/template" id="nagioshostgroup-item-service-template">
         </script>
         <script type="text/template" id="class-list-item-template">
             <%= id %>: <%= count %>

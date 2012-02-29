@@ -1,6 +1,7 @@
 var NagiosHostGroupView = Backbone.View.extend({
     tagName: "div",
     template: _.template($('#nagioshostgroup-item-template').html()),
+    inner_template: _.template($('#nagioshostgroup-item-host-template').html()),
     initialize: function() {
         this.model.on('change', this.render, this);
         this.model.on('destroy', this.remove, this);
@@ -14,7 +15,9 @@ var NagiosHostGroupView = Backbone.View.extend({
         data.hostCount = this.model.hostCount();
         data.hosts = this.model.monitorable_host_names();
         data.hostObjects = this.model.monitorable_hosts();
-        $(this.el).html(this.template(data));
+        var row = '<tr>' + this.template(data) +
+            this.inner_template(data) + '</tr>';
+        $(this.el).html(row);
         return this;
     },
     events: {
