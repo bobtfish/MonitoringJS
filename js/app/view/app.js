@@ -2,10 +2,6 @@
 // It sets up the rest of the application..
 
 var AppView = Backbone.View.extend({
-    // Instead of generating a new element, bind to the existing skeleton of
-    // the App already present in the HTML.
-    el: $("#todoapp"),
-
     initialize: function() {
         var eventRouter = _.clone(Backbone.Events)
         var hippie = ourHippie(eventRouter);
@@ -55,9 +51,11 @@ var AppView = Backbone.View.extend({
     classListTemplate: _.template($('#class-list-item-template').html()),
     hostTemplate: _.template($('#host-detail-template').html()),
     render_one_host: function(id) {
+        $('#nagios_hostgroups').hide();
         $('#hostdetails').html(this.hostTemplate({host: this.hostsCollection.get(id)}));
         $('.tabs').tab('show');
     },
+    // FIXME
     interesting_classes: [
         "databaseserver_mysql",
         "kitten_varnish",
