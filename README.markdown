@@ -18,6 +18,10 @@ Run ./server
 
 Browse to http://localhost:5000/
 
+## Screenshot
+
+![Screenshot 1](http://bobtfish.github.com/MonitoringJS/screenshot_1.png "Screenshot 1")
+
 ## Production install
 
 ### Dependencies
