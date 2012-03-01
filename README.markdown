@@ -2,21 +2,48 @@
 
 ## Introduction
 
-This is a little sketch of a new monitoring front page dashboard.
+This project is a new systems monitoring dashboard.
+
+I was sick of using an index.html which linked to nagios and munin
+and puppet dashboard independently, giving me several places to
+find data about my systems.
 
 The idea is to use all my pre-existing data from mcollective and nagios,
-and present it in a nice (and integrated) format.
+and present it in a nice (and integrated) format, on the homepage for the
+server we had the nagios & munin web interfaces on already..
 
-This project should be considered PRE ALPHA. Everything is liable to
-change.
+This project should be considered ALPHA, whilst I have this deployed
+and so won't be changing or breaking things I don't need
+to, there are likely to be significant changes still.
+
+## Features
+
+   . Summary of nagios failures by host group
+   . Host browser, with facts, classes, nagios results and integrated
+     muning graphs
+   . Dynamic real time updating (via MXHR)
+   . Customiseable top-bar links
+   . Uses localstorage to improve display performance
+   . Tested and useable on Firefox, Safari, Chrome, iPhone
+   . Uses Twitter's bootstrap, so doesn't make your eyes bleed.
 
 ## Quick test
 
-Check out the project
+Having a play around is easy - simply check out the project, then run:
 
-Run ./server
+    ./server
 
-Browse to http://localhost:5000/
+And you can browse to:
+
+    http://localhost:5000/
+
+The only dependency is perl >= 5.8.3 with core modules.
+
+To test dynamic updating, add some data to the test nagios log:
+
+    cat testdata/nagios.log.change >> testdata/nagios.log
+
+and observe the display update.
 
 ## Screenshot
 
@@ -84,7 +111,7 @@ All example code uses the functions from:
 to populate mongodb. Expected collections are documented below.
 
 #### nagios_host_groups
-    
+
     define hostgroup {
         $mdsn = { database => "puppet", collection => "nagios_host_groups" }
         $document = {
