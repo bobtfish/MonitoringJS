@@ -69,11 +69,34 @@ nagios log and serialize it out to clients.
 
 This needs to be run as a user who can read the nagios log file (which is expected to be in /var/log/nagios3/nagios.log)
 
-### Expected collections
+### Expected mongodb collections
 
-We expect a nagios_host_groups collection of metadata from puppet..
+Certain mongodb collections are expected to be populated as documented below.
 
-XXX - FIXME with details!
+All example code uses the functions from:
+
+    https://github.com/richardc/puppet-mongodb_functions
+
+to populate mongodb. Expected collections are documented below.
+
+#### nagios_host_groups
+    
+    define hostgroup {
+        $mdsn = { database => "puppet", collection => "nagios_host_groups" }
+        $document = {
+            "_id" => "${fqdn}_${name}",
+            fqdn => $fqdn,
+            group_name => $name,
+        }
+        mongodb_save( $mdsn, $document )
+    }
+
+And then in your manifests, or your own puppet modules, you can say something like:
+
+    hostgroup { "web-servers": }
+
+This metadata is used by the dashboard for grouping, and is also used in the puppet manifests for my nagios
+server to generate per-host configs with them belonging to the correct group(s).
 
 ### Other setup
 
@@ -85,16 +108,19 @@ main navigation menu.
 The entire project (excluding icon files) is inlined into index.html
 in the root directory for speed of loading.
 
-A test server and websocket server is provided in 'server', which if run
-standalone on a machine without a nagios log, will run a PSGI server
-hosting the application and a sensible set of demonstration data (on port
+A test server and MXHR update server is provided in 'server', which if run
+hosts the application and a sensible set of demonstration data (on port
 5000 by default).
+
+For production installs, this server is used as the asynchronous server, and is
+proxied to under a subset of the URI space, as documented above.
 
 The un-compacted version of the site (for debugging or development) can be viewed
 using the development server at the path /dev/. This page uses the un-compacted
 source located in /maint/app.html, and the un-minified Javascript in the js/ directory
 
-To re-build the inlined versions of the application, see instructions in the maint/
+If you have made changes, and would like to re-build the inlined versions of the
+application server and/or index.html, then see the README in the maint/
 directory.
 
 # AUTHOR
