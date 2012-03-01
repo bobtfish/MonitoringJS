@@ -72,7 +72,7 @@ An example Apache config snippet for setting up mod_proxy is shown below.
     ProxyPass        /_hippie/ http://127.0.0.1:5000/_hippie/
     ProxyPassReverse /_hippie/ http://127.0.0.1:5000/_hippie/
 
-Further instructions on setting up the dependencies are included below.
+Further instructions on setting up these dependencies are included below.
 
 ### Mcollective
 
@@ -87,9 +87,11 @@ You need to be running mongodb in REST interface mode.
 
 ### Nagios-api
 
-And you need the nagios-api application running:
+And you need the nagios-api application from:
 
     https://github.com/xb95/nagios-api
+
+And you run it something like this:
 
      python /usr/lib/nagios-api/nagios-api -p 8080 -c /var/lib/nagios3/rw/nagios.cmd -s /var/cache/nagios3/status.dat -l /var/log/nagios3/nagios.log
 
