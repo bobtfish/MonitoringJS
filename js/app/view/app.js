@@ -53,7 +53,12 @@ var AppView = Backbone.View.extend({
     render_one_host: function(id) {
         $('#nagios_hostgroups').hide();
         $('#hostdetails').html(this.hostTemplate({host: this.hostsCollection.get(id)}));
+        $('#hostdetails').show();
         $('.tabs').tab('show');
+    },
+    render_nagios_hostgroups: function() {
+        $('#hostdetails').hide();
+        $('#nagios_hostgroups').show();
     },
     // FIXME
     interesting_classes: [

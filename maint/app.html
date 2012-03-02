@@ -53,6 +53,7 @@
               Interesting classes: <%= class_list %>
         </script>
         <script type="text/template" id="host-detail-template">
+            <span class="span2 pull-right"><button href="#" onclick="App.render_nagios_hostgroups()">&lt;&lt; Back to summary</button></span>
             <h1><%= host.get("fqdn") %> <% if (host.get("facts")["machine_notes"]) { %><sub>(<%= host.get("facts")["machine_notes"] %>)</sub><% } %></h1>
             <div class="tabbable">
                 <ul class="nav nav-tabs">
